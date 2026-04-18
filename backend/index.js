@@ -54,14 +54,32 @@ app.use('/api/addresses', addressRoutes);
 
 // Static Frontend Serving with Clean Routes
 const frontendPath = path.join(__dirname, '..', 'frontend');
-app.use(express.static(frontendPath));
 
-const dashboardRoutes = ['/dashboard', '/profile', '/orders', '/saved', '/membership', '/settings'];
-dashboardRoutes.forEach(route => {
-    app.get(route, (req, res) => {
-        res.sendFile(path.join(frontendPath, `${route.substring(1)}.html`));
+// 1. Specific Page Routes (Clean URLs)
+const pages = [
+    { route: '/', file: 'index.html' },
+    { route: '/login', file: 'login.html' },
+    { route: '/register', file: 'register.html' },
+    { route: '/restaurant', file: 'restaurant.html' },
+    { route: '/delivery', file: 'delivery.html' },
+    { route: '/admin', file: 'admin.html' },
+    { route: '/dashboard', file: 'dashboard.html' },
+    { route: '/profile', file: 'profile.html' },
+    { route: '/orders', file: 'orders.html' },
+    { route: '/saved', file: 'saved.html' },
+    { route: '/membership', file: 'membership.html' },
+    { route: '/settings', file: 'settings.html' },
+    { route: '/private-dining', file: 'private-dining.html' }
+];
+
+pages.forEach(p => {
+    app.get(p.route, (req, res) => {
+        res.sendFile(path.join(frontendPath, p.file));
     });
 });
+
+// 2. Static Files (CSS, JS, Images)
+app.use(express.static(frontendPath));
 
 app.get('/api', (req, res) => {
     res.json({ message: "Welcome to Cibelle API - Luxury Food Delivery" });
