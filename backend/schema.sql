@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 -- Indexing for performance
-CREATE INDEX idx_menu_restaurant ON menu_items(restaurant_id);
-CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_menu_restaurant ON menu_items(restaurant_id);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 -- 6. Favorites Table
 CREATE TABLE IF NOT EXISTS favorites (
@@ -126,6 +126,6 @@ CREATE TABLE IF NOT EXISTS payment_logs (
 );
 
 -- Indexing for payment lookups
-CREATE INDEX idx_payments_order ON payments(order_id);
-CREATE INDEX idx_payments_booking ON payments(booking_id);
-CREATE INDEX idx_payments_provider_order ON payments(provider_order_id);
+CREATE INDEX IF NOT EXISTS idx_payments_order ON payments(order_id);
+CREATE INDEX IF NOT EXISTS idx_payments_booking ON payments(booking_id);
+CREATE INDEX IF NOT EXISTS idx_payments_provider_order ON payments(provider_order_id);
