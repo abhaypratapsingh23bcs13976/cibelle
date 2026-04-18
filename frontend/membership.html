@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership | Cibelle Private Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@700&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/membership_tiers.css">
+    <script src="js/navbar_loader.js"></script>
+</head>
+<body>
+    <div class="grain"></div>
+    <div id="navbar-placeholder"></div>
+    <div class="dashboard-layout">
+        <aside class="dash-sidebar">
+            <div class="user-info-side">
+                <p class="dash-subtitle">Member Portfolio</p>
+                <h3 id="dash-user-name">Elite Member</h3>
+            </div>
+            <ul class="dash-nav">
+                <li><a href="profile.html" class="dash-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile</a></li>
+                <li><a href="orders.html" class="dash-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> My Orders</a></li>
+                <li><a href="saved.html" class="dash-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Saved Restaurants</a></li>
+                <li><a href="membership.html" class="dash-nav-link active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Membership Access</a></li>
+                <li><a href="settings.html" class="dash-nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</a></li>
+                <li><a href="#" class="dash-nav-link logout-nav" onclick="logout()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out</a></li>
+            </ul>
+        </aside>
+
+        <div class="dash-divider"></div>
+
+        <main class="dash-main">
+            <header class="dash-header vip-reveal">
+                <h1 class="dash-title">CIBELLE PRIVATE CLUB</h1>
+                <p class="dash-subtitle">Your status within the selection</p>
+            </header>
+
+            <div class="membership-container">
+                <!-- Premium Membership Card -->
+                <div class="membership-card-premium reveal visible">
+                    <div class="card-glow"></div>
+                    <div class="card-inner">
+                        <div class="card-top">
+                            <div class="club-logo">CIBELLE</div>
+                            <div class="tier-badge" id="card-tier-badge">SILVER</div>
+                        </div>
+                        <div class="card-middle">
+                            <div class="member-name" id="card-user-name">MEMBER NAME</div>
+                            <div class="member-id" id="card-membership-id">ID: CB-Loading...</div>
+                        </div>
+                        <div class="card-bottom">
+                            <div class="stat">
+                                <span class="label">STATUS</span>
+                                <span class="value">ACTIVE</span>
+                            </div>
+                            <div class="stat">
+                                <span class="label">MEMBER SINCE</span>
+                                <span class="value">APR 2026</span>
+                            </div>
+                            <div class="qr-code-mini">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3zM7 7h.01M17 7h.01M17 17h.01M7 17h.01"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benefits Section -->
+                <section class="benefits-section reveal visible">
+                    <h3 class="section-title">ACTIVE PRIVILEGES</h3>
+                    <div class="benefits-grid-vip">
+                        <div class="benefit-card-vip">
+                            <div class="benefit-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+                            <h4>Priority Delivery</h4>
+                            <p>Immediate dispatch for every selection you make, always at the front of the queue.</p>
+                        </div>
+                        <div class="benefit-card-vip">
+                            <div class="benefit-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                            <h4>Exclusive Menus</h4>
+                            <p>Daily access to secret menu items crafted by our Michelin-starred partners.</p>
+                        </div>
+                        <div class="benefit-card-vip">
+                            <div class="benefit-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                            <h4>Private Concierge</h4>
+                            <p>24/7 priority assistance from our specialized culinary concierge team.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ TIER SELECTION ═══ -->
+                <section class="tiers-section" style="padding: 4rem 0 3rem;">
+                    <div class="tiers-heading">
+                        <span class="tiers-eyebrow">Choose Your Level</span>
+                        <h2 class="tiers-title">Select Your Membership</h2>
+                        <p class="tiers-subtitle">Each tier unlocks a deeper world of culinary exclusivity.</p>
+                    </div>
+                    <div class="tier-cards-grid" id="tier-cards-container"></div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <footer><p>&copy; 2026 Cibelle. Indulge in Excellence.</p></footer>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/membership_tiers.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => { if (typeof MembershipSystem !== 'undefined') MembershipSystem.init(); });</script>
+</body>
+</html>

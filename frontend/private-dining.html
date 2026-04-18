@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Dining | Cibelle Luxury Concierge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@700&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+    <script src="js/navbar_loader.js"></script>
+    <link rel="stylesheet" href="css/reservation.css">
+    <link rel="stylesheet" href="css/private-dining.css">
+</head>
+<body class="luxury-portal">
+    <!-- Luxury Grain Effect -->
+    <div class="grain"></div>
+    <div class="luxury-overlay"></div>
+
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <!-- Luxury Hero Section -->
+        <section class="pd-hero">
+            <div class="hero-cinematic-bg"></div>
+            <div class="hero-content">
+                <div class="hero-eyebrow reveal">A World Apart</div>
+                <h1 class="hero-title reveal">An Invitation to<br><span>Private Dining</span></h1>
+                <p class="hero-subtitle reveal">Curated experiences crafted exclusively for you. Step into a realm where every flavor tells a story and every moment is masterfully orchestrated.</p>
+                <div class="hero-cta reveal">
+                    <button class="btn-discover-gold" onclick="scrollToReservation()">Begin Reservation</button>
+                </div>
+            </div>
+            <div class="premium-ticker">
+                <div class="ticker-item">ONLY 6 TABLES CURATED PER EVENING</div>
+                <div class="ticker-dot"></div>
+                <div class="ticker-item">CONCIERGE CONFIRMATION WITHIN 15 MINS</div>
+                <div class="ticker-dot"></div>
+                <div class="ticker-item">UNPARALLELED CULINARY ARTISTRY</div>
+            </div>
+        </section>
+
+        <!-- Reservation Experience -->
+        <section class="pd-reservation-experience" id="reservation-section">
+            <div class="experience-container">
+                
+                <!-- Improved Progress Indicator -->
+                <div class="pd-stepper" id="reservation-flow">
+                    <div class="pd-step active" data-step="0">
+                        <div class="step-num">0</div>
+                        <div class="step-label">Destination</div>
+                    </div>
+                    <div class="pd-step" data-step="1">
+                        <div class="step-num">I</div>
+                        <div class="step-label">Timing</div>
+                    </div>
+                    <div class="pd-step" data-step="2">
+                        <div class="step-num">II</div>
+                        <div class="step-label">Occasion</div>
+                    </div>
+                    <div class="pd-step" data-step="3">
+                        <div class="step-num">III</div>
+                        <div class="step-label">Menu</div>
+                    </div>
+                    <div class="pd-step" data-step="4">
+                        <div class="step-num">IV</div>
+                        <div class="step-label">Confirm</div>
+                    </div>
+                </div>
+
+                <!-- Panels Container with Smooth Transitions -->
+                <div class="pd-panels-viewport">
+                    
+                    <!-- Step 0: Select Your Destination -->
+                    <div class="pd-panel active" id="res-step-0">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Select Your Destination</h2>
+                            <p class="panel-subtitle">Choose the establishment where your journey begins</p>
+                        </div>
+                        
+                        <div class="selection-controls">
+                            <div class="pd-search-bar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                <input type="text" id="restaurant-search" placeholder="Find an establishment..." oninput="Reservation.filterRestaurants()">
+                            </div>
+                        </div>
+
+                        <div class="restaurants-selection-grid" id="featured-destinations">
+                            <!-- Populated via JS -->
+                            <div class="loader-gold">Curating selections...</div>
+                        </div>
+
+                        <div class="panel-nav">
+                            <button class="btn-pd-next disabled" id="btn-step-0-next" onclick="Reservation.nextStep()">Continue &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Date & Time (Migrated from original) -->
+                    <div class="pd-panel" id="res-step-1">
+                        <!-- Content similar to original but enhanced -->
+                        <div class="panel-header">
+                            <h2 class="panel-title">Choose Your Time</h2>
+                            <p class="panel-subtitle">Synchronizing with the culinary rhythm of our kitchens</p>
+                        </div>
+                        <div class="calendar-booking-grid">
+                            <div class="calendar-side">
+                                <div class="res-calendar-header">
+                                    <button class="cal-nav" onclick="Reservation.prevMonth()">&#8592;</button>
+                                    <div class="cal-month-label" id="res-cal-month">Loading...</div>
+                                    <button class="cal-nav" onclick="Reservation.nextMonth()">&#8594;</button>
+                                </div>
+                                <div class="cal-grid" id="res-calendar"></div>
+                            </div>
+                            <div class="time-side">
+                                <div class="time-slots-grid" id="res-time-slots"></div>
+                            </div>
+                        </div>
+                        <div class="panel-nav">
+                            <button class="btn-pd-back" onclick="Reservation.prevStep()">&larr; Back</button>
+                            <button class="btn-pd-next" onclick="Reservation.nextStep()">Continue &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Guests & Occasion -->
+                    <div class="pd-panel" id="res-step-2">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Guests & Occasion</h2>
+                            <p class="panel-subtitle">Defining the core of your private experience</p>
+                        </div>
+                        <div class="guest-selector-premium">
+                            <button class="guest-btn" onclick="Reservation.changeGuests(-1)">−</button>
+                            <div class="guest-display">
+                                <span class="guest-number" id="res-guest-num">2</span>
+                                <span class="guest-label">Guests</span>
+                            </div>
+                            <button class="guest-btn" onclick="Reservation.changeGuests(1)">+</button>
+                        </div>
+                        <div class="occasion-grid" id="res-occasions"></div>
+                        <div class="panel-nav">
+                            <button class="btn-pd-back" onclick="Reservation.prevStep()">&larr; Back</button>
+                            <button class="btn-pd-next" onclick="Reservation.nextStep()">Continue &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Menu Preference (OVERHAULED) -->
+                    <div class="pd-panel" id="res-step-3">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Curate Your Experience</h2>
+                            <p class="panel-subtitle">Design the culinary narrative of your evening</p>
+                            
+                            <!-- Mode Switcher -->
+                            <div class="menu-mode-switcher">
+                                <button class="mode-btn active" id="mode-tasting" onclick="Reservation.setMenuMode('tasting')">
+                                    <span class="mode-icon">🍽️</span>
+                                    <div class="mode-text">
+                                        <strong>Chef's Tasting</strong>
+                                        <span>7–9 Course Masterpiece</span>
+                                    </div>
+                                </button>
+                                <button class="mode-btn" id="mode-custom" onclick="Reservation.setMenuMode('custom')">
+                                    <span class="mode-icon">📜</span>
+                                    <div class="mode-text">
+                                        <strong>Custom Selection</strong>
+                                        <span>Build Your Own Journey</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="pd-menu-experience-container" id="menu-experience-ui">
+                            <!-- Left: Category Sidebar (Only for Custom Mode) -->
+                            <aside class="pd-menu-sidebar" id="menu-sidebar">
+                                <ul class="pd-category-list" id="res-menu-categories">
+                                    <!-- Populated via JS -->
+                                </ul>
+                                
+                                <div class="pd-chef-filters">
+                                    <label class="filter-item">
+                                        <input type="checkbox" onchange="Reservation.filterDishes('isVeg', this.checked)">
+                                        <span class="filter-box"></span>
+                                        <span class="filter-label">Vegetarian</span>
+                                    </label>
+                                    <label class="filter-item">
+                                        <input type="checkbox" onchange="Reservation.filterDishes('isSignature', this.checked)">
+                                        <span class="filter-box"></span>
+                                        <span class="filter-label">Signatures</span>
+                                    </label>
+                                </div>
+                            </aside>
+
+                            <!-- Center: Dish Gallery -->
+                            <main class="pd-dish-gallery">
+                                <div class="pd-dish-grid" id="res-dish-grid">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </main>
+
+                            <!-- Right: Floating Experience Summary -->
+                            <aside class="pd-curation-summary">
+                                <div class="summary-card">
+                                    <h3 class="summary-title">Your Selection</h3>
+                                    <div class="summary-scroll-area" id="curated-items-list">
+                                        <!-- Selected items will appear here -->
+                                        <p class="empty-state-text">Select dishes to begin your journey</p>
+                                    </div>
+                                    <div class="summary-footer">
+                                        <div class="summary-stat">
+                                            <span>Total Courses</span>
+                                            <span class="stat-val" id="total-courses-count">0</span>
+                                        </div>
+                                        <div class="summary-suggestion" id="course-suggestion">
+                                            Recommended: 5–7 dishes for an optimal experience
+                                        </div>
+                                        <button class="btn-pd-next" style="width: 100%; margin-top: 1.5rem;" onclick="Reservation.nextStep()">
+                                            Review Your Curated Experience &rarr;
+                                        </button>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <div class="panel-nav" id="step-3-nav-fallback" style="display: none;">
+                            <button class="btn-pd-back" onclick="Reservation.prevStep()">&larr; Back</button>
+                            <button class="btn-pd-next" onclick="Reservation.nextStep()">Review Your Curated Experience &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Final Confirmation -->
+                    <div class="pd-panel" id="res-step-4">
+                        <div class="panel-header">
+                            <h2 class="panel-title">The Final Masterpiece</h2>
+                            <p class="panel-subtitle">Review your invitation requirements</p>
+                        </div>
+                        <div class="booking-summary-premium" id="res-summary"></div>
+                        <div class="panel-nav">
+                            <button class="btn-pd-back" onclick="Reservation.prevStep()">&larr; Back</button>
+                            <button class="btn-pd-confirm" id="res-confirm-btn" onclick="Reservation.nextStep()">
+                                Initiate Reservation
+                            </button>
+                        </div>
+                    </div>
+
+                </div><!-- /pd-panels-viewport -->
+
+                <!-- Upgraded Success State -->
+                <div class="pd-confirmation-portal" id="reservation-confirmation">
+                    <div class="success-glow"></div>
+                    <div class="confirm-seal">✦</div>
+                    <h2 class="confirm-headline">Your Request has been Received</h2>
+                    <p class="confirm-subtext">A dedicated member of our concierge team will reach out within 15 minutes to finalize your bespoke experience.</p>
+                    
+                    <div class="reservation-summary-receipt" id="final-res-summary">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <div class="concierge-note">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span>A member of our team will contact you shortly</span>
+                    </div>
+
+                    <button class="btn-confirm-done" onclick="window.location.href='index.html'">Return to Sanctuary</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="js/reservation.js"></script>
+    <script>
+        function scrollToReservation() {
+            document.getElementById('reservation-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Handle direct load from restaurant page
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id && typeof Reservation !== 'undefined') {
+                // Reservation system will handle auto-init if ID is present
+            }
+        });
+    </script>
+</body>
+</html>

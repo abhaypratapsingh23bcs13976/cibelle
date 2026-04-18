@@ -1,0 +1,494 @@
+/* ========================================================================= */
+/* CIBELLE — MEMBERSHIP TIER SYSTEM                                          */
+/* Silver · Gold · Elite                                                     */
+/* ========================================================================= */
+
+/* ─── Tier Badge (Navbar) ─── */
+.tier-badge-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 3px 10px;
+    border-radius: 40px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tier-badge-nav.silver {
+    background: rgba(192, 192, 192, 0.1);
+    border: 1px solid rgba(192, 192, 192, 0.35);
+    color: #c0c0c0;
+}
+
+.tier-badge-nav.gold {
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: var(--gold);
+}
+
+.tier-badge-nav.elite {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 215, 100, 0.08));
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+    animation: elitePulse 3s ease-in-out infinite;
+}
+
+@keyframes elitePulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.2); }
+    50%       { box-shadow: 0 0 20px rgba(212, 175, 55, 0.45); }
+}
+
+/* ─── Dropdown Header Enhancement ─── */
+.dropdown-tier-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+/* ─── Locked Restaurant Card Overlay ─── */
+.card-locked-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    border-radius: inherit;
+    cursor: default;
+}
+
+.card-locked-overlay .lock-icon {
+    font-size: 1.8rem;
+    opacity: 0.9;
+}
+
+.card-locked-overlay .lock-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    padding: 0 1rem;
+    line-height: 1.6;
+}
+
+.card-locked-overlay .lock-tier-hint {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.card-locked-overlay .btn-unlock {
+    margin-top: 0.5rem;
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: var(--gold);
+    padding: 0.5rem 1.4rem;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 40px;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-locked-overlay .btn-unlock:hover {
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* ─── Upgrade Banner ─── */
+.upgrade-banner {
+    background: linear-gradient(135deg, rgba(12,10,5,0.95) 0%, rgba(25,22,10,0.95) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-left: 3px solid var(--gold);
+    padding: 2rem 2.5rem;
+    margin: 3rem 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.upgrade-banner-text {
+    flex: 1;
+}
+
+.upgrade-banner-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.upgrade-banner-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    letter-spacing: 1px;
+}
+
+.upgrade-banner-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 0.4rem;
+}
+
+.btn-upgrade-banner {
+    background: var(--gold-gradient);
+    border: none;
+    color: black;
+    padding: 0.8rem 2rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-upgrade-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -100%;
+    width: 50%; height: 200%;
+    background: rgba(255,255,255,0.25);
+    transform: rotate(30deg);
+    transition: 0.5s;
+}
+
+.btn-upgrade-banner:hover::after { left: 150%; }
+.btn-upgrade-banner:hover {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
+}
+
+/* ─── Membership Page — Tier Cards ─── */
+.tiers-section {
+    padding: 6rem 8% 5rem;
+}
+
+.tiers-heading {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.tiers-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.tiers-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.tiers-subtitle {
+    color: var(--text-muted);
+    font-weight: 300;
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.tier-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.tier-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.tier-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.tier-card.silver::before { background: linear-gradient(to right, #a0a0a0, #e8e8e8, #a0a0a0); }
+.tier-card.gold::before   { background: var(--gold-gradient); }
+.tier-card.elite::before  { background: linear-gradient(to right, #8B6914, #D4AF37, #F0D060, #D4AF37, #8B6914); }
+
+.tier-card.elite {
+    border-color: rgba(212,175,55,0.2);
+    box-shadow: 0 0 40px rgba(212,175,55,0.08);
+}
+
+.tier-card.elite:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(212,175,55,0.15);
+}
+
+.tier-card:not(.elite):hover {
+    transform: translateY(-5px);
+}
+
+.tier-card-recommended {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: black;
+    background: var(--gold-gradient);
+    padding: 3px 10px;
+    border-radius: 40px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.tier-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.tier-card.silver .tier-card-name { color: #c0c0c0; }
+.tier-card.gold   .tier-card-name { color: var(--gold); }
+.tier-card.elite  .tier-card-name { color: var(--gold); }
+
+.tier-card-tagline {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+}
+
+.tier-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.tier-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+.tier-features .feat-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    margin-top: 2px;
+}
+
+.tier-card.silver .feat-check { background: rgba(192,192,192,0.15); color: #c0c0c0; }
+.tier-card.gold   .feat-check { background: rgba(212,175,55,0.15); color: var(--gold); }
+.tier-card.elite  .feat-check { background: rgba(212,175,55,0.2); color: var(--gold); }
+
+.tier-features li .feat-locked {
+    opacity: 0.25;
+    font-style: italic;
+}
+
+.tier-card-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 2rem;
+}
+
+.btn-tier-select {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.35s;
+    position: relative;
+    overflow: hidden;
+}
+
+.tier-card.silver .btn-tier-select {
+    background: transparent;
+    border: 1px solid rgba(192,192,192,0.3);
+    color: #c0c0c0;
+}
+
+.tier-card.silver .btn-tier-select:hover {
+    background: rgba(192,192,192,0.08);
+    border-color: #c0c0c0;
+}
+
+.tier-card.gold .btn-tier-select {
+    background: transparent;
+    border: 1px solid rgba(212,175,55,0.4);
+    color: var(--gold);
+}
+
+.tier-card.gold .btn-tier-select:hover {
+    background: rgba(212,175,55,0.08);
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+}
+
+.tier-card.elite .btn-tier-select {
+    background: var(--gold-gradient);
+    border: none;
+    color: black;
+}
+
+.tier-card.elite .btn-tier-select::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -100%;
+    width: 50%; height: 200%;
+    background: rgba(255,255,255,0.25);
+    transform: rotate(30deg);
+    transition: 0.5s;
+}
+
+.tier-card.elite .btn-tier-select:hover::after { left: 150%; }
+.tier-card.elite .btn-tier-select:hover {
+    box-shadow: 0 0 25px rgba(212,175,55,0.5);
+}
+
+.btn-tier-select.current {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: var(--text-muted) !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ─── Upgrade Animation Overlay ─── */
+.upgrade-ceremony {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.97);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s;
+}
+
+.upgrade-ceremony.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ceremony-glow {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    animation: ceremonyReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ceremony-glow::before,
+.ceremony-glow::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.2);
+    animation: ceremonyRipple 2s ease-out infinite;
+}
+
+.ceremony-glow::before { inset: -15px; animation-delay: 0.3s; }
+.ceremony-glow::after  { inset: -30px; animation-delay: 0.6s; }
+
+@keyframes ceremonyReveal {
+    from { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes ceremonyRipple {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.4); }
+}
+
+.ceremony-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-align: center;
+    animation: fadeUp 0.8s 0.4s both;
+}
+
+.ceremony-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.6s both;
+    text-align: center;
+    max-width: 400px;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+    .tier-cards-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .upgrade-banner  { flex-direction: column; align-items: flex-start; }
+}

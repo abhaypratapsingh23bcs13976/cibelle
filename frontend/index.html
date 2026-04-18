@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://www.transparenttextures.com https://grainy-gradients.vercel.app blob:; connect-src 'self' ws: wss: http://localhost:* https://nominatim.openstreetmap.org https://cdn.socket.io;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cibelle | Luxury Food Delivery | Indulge in Excellence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@700&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/membership_tiers.css">
+    <script src="js/navbar_loader.js"></script>
+</head>
+<body>
+    <!-- Luxury Grain Effect -->
+    <svg style="display:none">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+    </svg>
+    <div class="grain"></div>
+
+    <div class="lang-toggle" id="lang-btn">EN | HI</div>
+
+    <div id="navbar-placeholder"></div>
+
+    <main>
+
+        <section id="hero" class="hero">
+            <div class="hero-video-container">
+                <div class="hero-cinematic-bg" style="background-image: url('img/cibelle_hero_cinematic.png');"></div>
+            </div>
+            <div class="hero-overlay-dark"></div>
+            <div class="hero-gold-glow"></div>
+            <div class="particles-container"></div>
+            <div class="hero-depth-blur"></div>
+            
+            <div class="hero-content-wrapper">
+                <h1 data-key="hero-title">
+                    <span class="title-line-1">Exquisite Dining,</span>
+                    <span class="title-line-2 text-gold">Delivered Effortlessly.</span>
+                </h1>
+                <p data-key="hero-desc" class="hero-subtext">Experience the finest culinary creations from the city's most prestigious kitchens, brought to your doorstep with unparalleled care.</p>
+                <div class="search-bar-wrapper">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Enter your delivery address..." id="search-input">
+                        <button data-key="hero-btn" class="btn-discover" onclick="scrollToRestaurants()">Discover</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator" onclick="scrollToRestaurants()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+        </section>
+
+
+
+        <section id="restaurants" class="restaurants reveal">
+            <div class="section-header">
+                <div class="header-text">
+                    <h2 data-key="featured-title" style="letter-spacing: 8px;">Signature Dining</h2>
+                    <p class="section-subtitle" style="font-style: italic; opacity: 0.6;">A curated discovery of the city's most prestigious culinary destinations</p>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="filter-chips" id="filter-chips">
+                    <button class="chip active" onclick="setFilter('all')">All Selection</button>
+                    <button class="chip" onclick="setFilter('veg')">Pure Veg</button>
+                    <button class="chip" onclick="setFilter('premium')">Premium Elite</button>
+                    <button class="chip" onclick="setFilter('offers')">Special Offers</button>
+                </div>
+                <div class="sort-dropdown">
+                    <select id="sort-select" onchange="handleSort()">
+                        <option value="rating">Top Rated</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="time">Delivery Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="restaurant-grid" class="grid">
+                <div class="loader">Polishing the silver...</div>
+            </div>
+            
+
+        </section>
+
+        <section class="private-club-section reveal">
+            <div class="private-club-bg"></div>
+            <div class="private-club-overlay"></div>
+            <div class="private-club-particles"></div>
+            
+            <div class="private-club-content">
+                <div class="private-club-icon reveal-item delay-1">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#goldGradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+                      <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#F1C40F"></stop>
+                        <stop offset="50%" stop-color="#D4AF37"></stop>
+                        <stop offset="100%" stop-color="#AA8928"></stop>
+                      </linearGradient>
+                    </svg>
+                </div>
+                <div class="premium-badge reveal-item delay-1">INVITATION ONLY</div>
+                
+                <h2 class="private-club-title text-gold reveal-item delay-2" data-key="member-title">CIBELLE PRIVATE CLUB</h2>
+                
+                <p class="private-club-desc reveal-item delay-3" data-key="member-desc">Unlock exclusive access to a world of culinary excellence. Reserved for those who appreciate the extraordinary.</p>
+                
+                <ul class="private-club-benefits reveal-item delay-4">
+                    <li><span class="benefit-line"></span> <span data-key="member-b1">Private Chef Access</span></li>
+                    <li><span class="benefit-line"></span> <span data-key="member-b2">Exclusive Menus</span></li>
+                    <li><span class="benefit-line"></span> <span data-key="member-b3">Priority Delivery</span></li>
+                    <li><span class="benefit-line"></span> <span data-key="member-b4">VIP Concierge</span></li>
+                </ul>
+                
+                <div class="private-club-action reveal-item delay-5">
+                    <a href="register.html" class="btn-invitation" data-key="member-btn">Request Invitation</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cibelle Concierge Chat Widget -->
+    <div id="concierge-panel" class="concierge-panel">
+        <div class="concierge-header">
+            <div class="concierge-header-info">
+                <div class="concierge-avatar">C</div>
+                <div>
+                    <h3>Cibelle Concierge</h3>
+                    <span class="concierge-status"><span class="status-dot"></span> Online</span>
+                </div>
+            </div>
+            <span class="close-concierge" onclick="toggleConcierge()">&times;</span>
+        </div>
+        <div class="concierge-body" id="concierge-body">
+            <div class="concierge-date-divider">Today</div>
+            <div class="message assistant">
+                <p>Good evening. This is your personal concierge. How may I assist you with your culinary selection today?</p>
+                <span class="msg-time">Now</span>
+            </div>
+        </div>
+        <div class="concierge-typing" id="concierge-typing" style="display:none">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="concierge-footer">
+            <input type="text" id="concierge-input" placeholder="Ask your concierge..." 
+                   onkeydown="if(event.key==='Enter') Concierge.send()">
+            <button class="btn-send-concierge" onclick="Concierge.send()" id="concierge-send-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Concierge FAB trigger (shown when panel is closed) -->
+    <button class="concierge-fab" id="concierge-fab" onclick="toggleConcierge()" title="Open Concierge">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="fab-unread" id="fab-unread" style="display:none">1</span>
+    </button>
+
+    <footer>
+        <p>&copy; 2026 Cibelle. Indulge in Excellence. <br> <span style="font-size: 0.7rem; color: var(--gold); cursor: pointer;" onclick="window.location.href='admin.html'">Admin</span> | <span style="font-size: 0.7rem; color: var(--gold); cursor: pointer;" onclick="window.location.href='delivery.html'">Ambassador</span></p>
+    </footer>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/membership_tiers.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/concierge.js"></script>
+</body>
+</html>

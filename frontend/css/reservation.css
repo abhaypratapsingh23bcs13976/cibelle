@@ -1,0 +1,961 @@
+/* ========================================================================= */
+/* CIBELLE — LUXURY PRIVATE DINING RESERVATION SYSTEM                       */
+/* ========================================================================= */
+
+/* Section Wrapper */
+.reservation-section {
+    padding: 8rem 8% 6rem 8%;
+    position: relative;
+    overflow: hidden;
+}
+
+.reservation-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.3;
+}
+
+.reservation-intro {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.reservation-eyebrow {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.reservation-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--text);
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.reservation-title span {
+    color: var(--gold);
+}
+
+.reservation-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.7;
+}
+
+.reservation-urgency {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    color: #d4af37;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 0.5rem 1.5rem;
+    border-radius: 40px;
+}
+
+.urgency-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: urgencyPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes urgencyPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ─── Stepper ─── */
+.reservation-stepper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 4rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+    z-index: 1;
+}
+
+.step-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: calc(50% + 24px);
+    top: 24px;
+    width: 80px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 0;
+}
+
+.step-item.complete:not(:last-child)::after {
+    background: rgba(212, 175, 55, 0.4);
+}
+
+.step-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.step-item.active .step-circle {
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.step-item.complete .step-circle {
+    border-color: var(--gold);
+    background: var(--gold-gradient);
+    color: black;
+}
+
+.step-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.step-item.active .step-label,
+.step-item.complete .step-label {
+    color: var(--gold);
+}
+
+/* ─── Step Panel Container ─── */
+.reservation-panels {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.res-panel {
+    display: none;
+    animation: panelIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.res-panel.active {
+    display: block;
+}
+
+@keyframes panelIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    border-radius: 16px;
+    padding: 3.5rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(212, 175, 55, 0.05);
+}
+
+.panel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.panel-title-num {
+    font-size: 0.65rem;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+}
+
+/* ─── Calendar ─── */
+.res-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.cal-nav {
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cal-nav:hover {
+    background: var(--gold);
+    color: black;
+}
+
+.cal-month-label {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--text);
+    letter-spacing: 3px;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.cal-day-name {
+    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.5rem 0;
+}
+
+.cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 300;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    color: var(--text);
+}
+
+.cal-day:hover:not(.past):not(.empty) {
+    border-color: rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.08);
+    color: var(--gold);
+}
+
+.cal-day.selected {
+    background: var(--gold-gradient);
+    color: black;
+    font-weight: 600;
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.cal-day.today {
+    border-color: rgba(212, 175, 55, 0.3);
+    color: var(--gold);
+}
+
+.cal-day.past {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.cal-day.empty {
+    cursor: default;
+}
+
+/* ─── Time Slots ─── */
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+.time-slot {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.time-slot:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+    transform: translateY(-3px);
+    background: rgba(212, 175, 55, 0.04);
+}
+
+.time-slot.selected {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.07);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+}
+
+.time-slot-time {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+}
+
+.time-slot-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+}
+
+.time-slot-avail {
+    font-size: 0.6rem;
+    color: rgba(212, 175, 55, 0.6);
+    font-style: italic;
+}
+
+/* ─── Guests & Occasion ─── */
+.guest-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 2.5rem 0;
+}
+
+.guest-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: transparent;
+    color: var(--gold);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guest-btn:hover {
+    background: var(--gold);
+    color: black;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.guest-count-display {
+    text-align: center;
+}
+
+.guest-number {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+}
+
+.guest-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    display: block;
+}
+
+.occasion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+.occasion-card {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.35s;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.occasion-card:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-3px);
+}
+
+.occasion-card.selected {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.06);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
+}
+
+.occasion-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.occasion-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+}
+
+.occasion-desc {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* ─── Menu Selection ─── */
+.menu-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.menu-choice-card {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    cursor: pointer;
+    transition: all 0.35s;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-choice-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold-gradient);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.menu-choice-card:hover::before,
+.menu-choice-card.selected::before {
+    opacity: 1;
+}
+
+.menu-choice-card:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-4px);
+}
+
+.menu-choice-card.selected {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.06);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.12);
+}
+
+.menu-choice-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.menu-choice-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+}
+
+.menu-choice-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+/* Special notes textarea */
+.res-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 1.2rem 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    resize: vertical;
+    min-height: 100px;
+    transition: 0.3s;
+    box-sizing: border-box;
+    margin-top: 1.5rem;
+}
+
+.res-textarea:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.08);
+}
+
+.res-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+}
+
+/* ─── Experience Details ─── */
+.experience-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.exp-detail-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    border-radius: 12px;
+    padding: 1.8rem;
+    text-align: center;
+}
+
+.exp-detail-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.exp-detail-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.exp-detail-value {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+}
+
+/* ─── Booking Summary ─── */
+.booking-summary {
+    background: rgba(212, 175, 55, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    text-transform: uppercase;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 0.85rem;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-key {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.summary-val {
+    color: var(--text);
+    font-weight: 400;
+    text-align: right;
+}
+
+/* ─── Navigation Buttons ─── */
+.panel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    gap: 1rem;
+}
+
+.btn-res-back {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 1rem 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.btn-res-back:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.btn-res-next {
+    background: var(--gold-gradient);
+    border: none;
+    color: black;
+    padding: 1rem 3rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.4s;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+}
+
+.btn-res-next::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 50%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(30deg);
+    transition: 0.5s;
+}
+
+.btn-res-next:hover::after {
+    left: 150%;
+}
+
+.btn-res-next:hover {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
+}
+
+/* ─── Confirmation Screen ─── */
+.reservation-confirmation {
+    text-align: center;
+    padding: 4rem 2rem;
+    animation: panelIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    display: none;
+}
+
+.reservation-confirmation.show {
+    display: block;
+}
+
+.confirm-seal {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 2.5rem auto;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    position: relative;
+    animation: sealReveal 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sealReveal {
+    from { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.confirm-seal::before,
+.confirm-seal::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.confirm-seal::before { inset: -8px; }
+.confirm-seal::after  { inset: -16px; }
+
+.confirm-headline {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.confirm-subtext {
+    color: var(--text-muted);
+    font-weight: 300;
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+.confirm-ref {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--gold);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 0.8rem 2rem;
+    margin-bottom: 3rem;
+}
+
+.confirm-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+    text-align: left;
+}
+
+.confirm-detail {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+}
+
+.confirm-detail-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.confirm-detail-value {
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.btn-confirm-done {
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--gold);
+    padding: 1rem 3rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.btn-confirm-done:hover {
+    background: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .reservation-section { padding: 5rem 5% 4rem 5%; }
+    .panel-card { padding: 2rem; }
+    .occasion-grid { grid-template-columns: 1fr; }
+    .menu-choice-grid { grid-template-columns: 1fr; }
+    .experience-details { grid-template-columns: 1fr; }
+    .confirm-details-grid { grid-template-columns: 1fr; }
+    .time-slots-grid { grid-template-columns: repeat(2, 1fr); }
+    .reservation-stepper { gap: 0; }
+    .step-item:not(:last-child)::after { width: 40px; }
+    .step-label { display: none; }
+}
+/* ─── Private Dining CTA Section (on Restaurant Page) ─── */
+.reservation-cta-section {
+    padding: 10rem 8% 8rem 8%;
+    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+}
+
+.cta-glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 20px;
+    padding: 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gold-gradient);
+}
+
+.cta-content {
+    flex: 1;
+}
+
+.cta-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.cta-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    letter-spacing: 4px;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.cta-description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 200;
+    line-height: 1.8;
+    max-width: 600px;
+}
+
+.cta-badges {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.cta-badge {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    color: var(--gold);
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+.cta-action {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.btn-primary-gold {
+    background: var(--gold-gradient);
+    border: none;
+    color: black;
+    padding: 1.2rem 3.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+}
+
+.btn-primary-gold:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+}
+
+.cta-note {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+    .cta-glass-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 4rem 2rem;
+        gap: 3rem;
+    }
+    .cta-badges {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .btn-primary-gold {
+        justify-content: center;
+    }
+}

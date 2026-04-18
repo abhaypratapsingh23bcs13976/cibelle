@@ -1,0 +1,602 @@
+/* ========================================================================= */
+/* CIBELLE — CONCIERGE CHAT & FULL RESPONSIVE OVERHAUL                      */
+/* ========================================================================= */
+
+/* ─── Concierge Panel ──────────────────────────────────────────────────── */
+.concierge-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 2rem;
+    width: 400px;
+    max-height: 560px;
+    background: rgba(10, 8, 4, 0.98);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+    backdrop-filter: blur(40px);
+    z-index: 9000;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1),
+                transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+.concierge-panel.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.concierge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    flex-shrink: 0;
+}
+
+.concierge-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.concierge-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: black;
+    flex-shrink: 0;
+}
+
+.concierge-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin: 0;
+}
+
+.concierge-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: #2ecc71;
+    border-radius: 50%;
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+.close-concierge {
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    line-height: 1;
+    padding: 0.2rem 0.4rem;
+}
+
+.close-concierge:hover { color: var(--gold); }
+
+/* Message Area */
+.concierge-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-behavior: smooth;
+}
+
+.concierge-body::-webkit-scrollbar { width: 3px; }
+.concierge-body::-webkit-scrollbar-track { background: transparent; }
+.concierge-body::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.2); border-radius: 2px; }
+
+.concierge-date-divider {
+    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.2);
+    margin: 0.2rem 0;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+}
+
+.message p {
+    padding: 0.9rem 1.1rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.message.assistant {
+    align-self: flex-start;
+}
+
+.message.assistant p {
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    border-bottom-left-radius: 4px;
+    color: var(--text);
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message.user p {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-bottom-right-radius: 4px;
+    color: var(--text);
+}
+
+.msg-time {
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 0.3rem;
+    letter-spacing: 0.5px;
+}
+
+.message.user .msg-time { align-self: flex-end; }
+.message.assistant .msg-time { align-self: flex-start; }
+
+/* Typing indicator */
+.concierge-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.8rem 1.5rem;
+    flex-shrink: 0;
+}
+
+.concierge-typing span {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: typingDot 1.2s ease-in-out infinite;
+    opacity: 0.4;
+}
+
+.concierge-typing span:nth-child(2) { animation-delay: 0.2s; }
+.concierge-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50%       { opacity: 1;   transform: translateY(-4px); }
+}
+
+/* Input Footer */
+.concierge-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.2rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    flex-shrink: 0;
+}
+
+.concierge-footer input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 0.7rem 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    outline: none;
+    transition: 0.3s;
+}
+
+.concierge-footer input:focus {
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.concierge-footer input::placeholder { color: rgba(255,255,255,0.2); }
+
+.btn-send-concierge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold-gradient);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.btn-send-concierge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-send-concierge:disabled { opacity: 0.5; cursor: default; transform: none; }
+.btn-send-concierge svg { stroke: black; }
+
+/* FAB Button */
+.concierge-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--gold-gradient);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    z-index: 8999;
+    transition: 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+.concierge-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
+}
+
+.concierge-fab.active { opacity: 0; pointer-events: none; transform: scale(0.8); }
+.concierge-fab svg { stroke: black; }
+
+.fab-unread {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: badgePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.2); }
+}
+
+/* ========================================================================= */
+/* FULL MOBILE RESPONSIVENESS                                                 */
+/* ========================================================================= */
+
+/* ─── Base: Mobile-first resets ─── */
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; }
+
+/* ─── Navbar ─── */
+@media (max-width: 768px) {
+    .navbar { padding: 0 1.2rem; }
+    .navbar-center { display: none; }
+    .nav-left .logo { font-size: 1.2rem; letter-spacing: 3px; }
+
+    /* Hamburger menu */
+    .mobile-menu-btn {
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 6px;
+        background: transparent;
+        border: none;
+    }
+
+    .mobile-menu-btn span {
+        display: block;
+        width: 22px;
+        height: 1.5px;
+        background: var(--gold);
+        transition: 0.3s;
+    }
+
+    .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(8, 6, 2, 0.98);
+        backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        padding: 1.5rem 2rem;
+        flex-direction: column;
+        gap: 1.5rem;
+        z-index: 998;
+    }
+
+    .mobile-nav.active { display: flex; }
+
+    .mobile-nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-family: 'Cinzel', serif;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .navbar-right .cart-wrapper span.cart-label { display: none; }
+    .navbar-right .tier-badge-nav { display: none; }
+}
+
+/* ─── Hero Section ─── */
+@media (max-width: 768px) {
+    .hero-section, .hero { 
+        min-height: 85vh; 
+        padding: 0 1.5rem; 
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 9vw, 3.5rem) !important;
+        text-align: center;
+    }
+
+    .hero-description, .hero-desc {
+        font-size: 0.9rem !important;
+        text-align: center;
+        max-width: 100% !important;
+    }
+
+    .hero-cta { justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
+
+    /* Video hero */
+    .hero-bg-video { object-position: center center; }
+}
+
+/* ─── Restaurant / Card Grid ─── */
+@media (max-width: 1024px) {
+    .restaurant-grid, #restaurant-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .restaurant-grid, #restaurant-grid {
+        grid-template-columns: 1fr !important;
+        padding: 0 1rem;
+    }
+
+    .card { min-height: 260px; }
+    .card-hero { min-height: 300px; }
+}
+
+/* ─── Sections & Padding ─── */
+@media (max-width: 768px) {
+    section { padding-left: 1.2rem !important; padding-right: 1.2rem !important; }
+
+    .section-heading { font-size: clamp(1.8rem, 6vw, 2.5rem) !important; }
+
+    .featured-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .filter-chips {
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-chips::-webkit-scrollbar { height: 2px; }
+
+    .search-sort-row {
+        flex-direction: column !important;
+        gap: 0.8rem;
+    }
+
+    #search-input, #sort-select {
+        width: 100% !important;
+    }
+}
+
+/* ─── Cart Drawer ─── */
+@media (max-width: 768px) {
+    .cart-drawer {
+        width: 100% !important;
+        right: 0 !important;
+        border-radius: 16px 16px 0 0 !important;
+        bottom: 0 !important;
+        top: auto !important;
+        max-height: 88vh;
+        overflow-y: auto;
+    }
+}
+
+/* ─── Restaurant Hero ─── */
+@media (max-width: 768px) {
+    .restaurant-hero {
+        min-height: 45vh !important;
+        background-attachment: scroll !important;
+    }
+
+    .rh-title {
+        font-size: clamp(2rem, 8vw, 3rem) !important;
+    }
+
+    .rh-meta { flex-wrap: wrap; gap: 0.6rem; }
+
+    .food-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .food-card {
+        flex-direction: column;
+        min-height: auto !important;
+    }
+
+    .food-card-img {
+        width: 100% !important;
+        height: 200px !important;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .menu-category-section { padding: 0 0 3rem !important; }
+}
+
+/* ─── Reservation Section ─── */
+@media (max-width: 768px) {
+    .reservation-section {
+        padding: 4rem 1.2rem 3rem !important;
+    }
+
+    .reservation-stepper {
+        gap: 0;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 0.5rem;
+    }
+
+    .step-item:not(:last-child)::after { width: 30px; }
+    .step-label { display: none; }
+
+    .panel-card { padding: 1.5rem !important; }
+
+    .cal-grid { gap: 4px; }
+    .cal-day { font-size: 0.75rem; border-radius: 6px; }
+
+    .time-slots-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .occasion-grid { grid-template-columns: 1fr !important; }
+    .menu-choice-grid { grid-template-columns: 1fr !important; }
+    .experience-details { grid-template-columns: 1fr !important; }
+
+    .confirm-details-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─── Membership Tiers ─── */
+@media (max-width: 900px) {
+    .tier-cards-grid {
+        grid-template-columns: 1fr !important;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+/* ─── Dashboard / Profile ─── */
+@media (max-width: 768px) {
+    .dashboard-layout {
+        flex-direction: column !important;
+    }
+
+    .dash-sidebar {
+        width: 100% !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(212,175,55,0.08);
+        padding: 1.5rem !important;
+    }
+
+    .dash-nav {
+        flex-direction: row !important;
+        overflow-x: auto;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+    }
+
+    .dash-nav li a {
+        white-space: nowrap;
+        font-size: 0.7rem !important;
+        padding: 0.5rem 0.8rem !important;
+    }
+
+    .dash-main { padding: 1.5rem 1.2rem !important; }
+
+    .dash-title { font-size: clamp(1.5rem, 6vw, 2.5rem) !important; }
+}
+
+/* ─── Settings ─── */
+@media (max-width: 768px) {
+    .settings-grid { grid-template-columns: 1fr !important; }
+    .settings-section { padding: 1.5rem !important; }
+}
+
+/* ─── Auth Pages ─── */
+@media (max-width: 500px) {
+    .auth-card {
+        padding: 2.5rem 1.5rem !important;
+        margin: 1rem !important;
+        width: calc(100% - 2rem) !important;
+        border-radius: 12px !important;
+    }
+}
+
+/* ─── Upgrade Banner ─── */
+@media (max-width: 640px) {
+    .upgrade-banner {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .btn-upgrade-banner { width: 100%; text-align: center; }
+}
+
+/* ─── Concierge on Mobile ─── */
+@media (max-width: 500px) {
+    .concierge-panel {
+        width: calc(100vw - 2rem) !important;
+        right: 1rem !important;
+        bottom: 90px !important;
+        max-height: 75vh !important;
+    }
+
+    .concierge-fab {
+        right: 1rem !important;
+        bottom: 1.5rem !important;
+    }
+}
+
+/* ─── Footer ─── */
+@media (max-width: 768px) {
+    footer { padding: 3rem 1.5rem 4rem !important; }
+    footer p { font-size: 0.75rem; }
+}
+
+/* ─── Mobile Menu Button (show on small screens) ─── */
+.mobile-menu-btn { display: none; }

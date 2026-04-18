@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambassador Portal | Delivery</title>
+    <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">AMBASSADOR PORTAL</a>
+    </header>
+
+    <div style="padding: 10rem 5%; max-width: 800px; margin: 0 auto;">
+        <div style="border: 1px solid var(--gold); color: var(--gold); padding: 1rem 2rem; border-radius: 40px; display: inline-block; margin-bottom: 3rem;">● ONLINE</div>
+        <h1 style="font-family: 'Playfair Display'; margin-bottom: 3rem;">Assigned Requests</h1>
+        
+        <div style="background: var(--card-bg); border: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3 style="color: var(--gold); margin-bottom: 0.5rem;">CIB-1025</h3>
+                <p>The Golden Spoon → John Smith</p>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Vintage Wine x1, Truffle Box x1</p>
+            </div>
+            <button class="btn-gold" onclick="markAsDelivered('CIB-1025')">DELIVER</button>
+        </div>
+    </div>
+
+    <script>
+        function markAsDelivered(orderId) {
+            alert(`Order ${orderId} has been successfully delivered. Excellence maintained.`);
+        }
+    </script>
+</body>
+</html>

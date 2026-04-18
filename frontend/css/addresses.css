@@ -1,0 +1,692 @@
+/* =========================================================================
+   Cibelle — Dining Address System Styles
+   Dark + Gold luxury theme — standalone component
+   ========================================================================= */
+
+/* ── Section Wrapper ─────────────────────────────────────────────────── */
+.addr-section {
+    margin-top: 3rem;
+}
+
+.addr-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.addr-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    letter-spacing: 3px;
+    color: var(--gold, #D4AF37);
+    text-transform: uppercase;
+}
+
+.addr-section-subtitle {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    margin-top: 0.3rem;
+}
+
+/* ── Cards Grid ──────────────────────────────────────────────────────── */
+.addr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.4rem;
+}
+
+/* ── Individual Address Card ─────────────────────────────────────────── */
+.addr-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 2rem 1.8rem 1.6rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s,
+                box-shadow 0.35s;
+    overflow: hidden;
+}
+
+.addr-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.35s;
+}
+
+.addr-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow: 0 16px 45px rgba(0,0,0,0.35), 0 0 20px rgba(212,175,55,0.06);
+}
+
+.addr-card:hover::before { opacity: 1; }
+
+/* Default card highlight */
+.addr-card--default {
+    border-color: rgba(212, 175, 55, 0.25);
+    background: rgba(212, 175, 55, 0.035);
+}
+
+/* ── Primary Badge ───────────────────────────────────────────────────── */
+.addr-primary-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.5rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--gold, #D4AF37);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    padding: 3px 10px;
+    border-radius: 40px;
+}
+
+/* ── Card Content ────────────────────────────────────────────────────── */
+.addr-card-emoji {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.8rem;
+    line-height: 1;
+}
+
+.addr-card-type {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.55);
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 0.3rem;
+}
+
+.addr-card-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: var(--gold, #D4AF37);
+    margin-bottom: 0.7rem;
+    letter-spacing: 1px;
+}
+
+.addr-card-address {
+    font-size: 0.84rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 0.4rem;
+}
+
+.addr-card-city {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    font-weight: 300;
+    margin-bottom: 1.4rem;
+}
+
+/* ── Card Actions ────────────────────────────────────────────────────── */
+.addr-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1.2rem;
+    margin-top: auto;
+}
+
+.addr-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.4);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.58rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.25s;
+    font-weight: 500;
+}
+
+.addr-btn:hover {
+    color: var(--gold, #D4AF37);
+    border-color: rgba(212,175,55,0.3);
+    background: rgba(212,175,55,0.05);
+}
+
+.addr-btn-delete:hover {
+    color: #e05555;
+    border-color: rgba(224,85,85,0.3);
+    background: rgba(224,85,85,0.05);
+}
+
+.addr-btn-default {
+    color: rgba(212,175,55,0.6);
+    border-color: rgba(212,175,55,0.15);
+}
+
+/* ── Add New Card ────────────────────────────────────────────────────── */
+.addr-card-add {
+    border: 1px dashed rgba(212, 175, 55, 0.15);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: 0.8rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.addr-card-add:hover {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.03);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+}
+
+.addr-add-plus {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold, #D4AF37);
+    font-size: 1.6rem;
+    font-weight: 200;
+    transition: 0.35s;
+    line-height: 1;
+}
+
+.addr-card-add:hover .addr-add-plus {
+    background: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.addr-card-add span {
+    font-size: 0.6rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.3s;
+}
+
+.addr-card-add:hover span { color: var(--gold, #D4AF37); }
+
+/* ── Empty State ─────────────────────────────────────────────────────── */
+.addr-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px dashed rgba(255,255,255,0.06);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.01);
+}
+
+.addr-empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.addr-empty-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--gold, #D4AF37);
+    margin-bottom: 0.5rem;
+}
+
+.addr-empty-sub {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.3);
+    font-weight: 300;
+}
+
+/* ── Modal Overlay ───────────────────────────────────────────────────── */
+.addr-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 4, 4, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.addr-modal.addr-modal--open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.addr-modal-panel {
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: rgba(12, 10, 8, 0.98);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 18px;
+    padding: 3rem;
+    position: relative;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212,175,55,0.2) transparent;
+}
+
+.addr-modal.addr-modal--open .addr-modal-panel {
+    transform: translateY(0) scale(1);
+}
+
+/* ── Modal Header ────────────────────────────────────────────────────── */
+.addr-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+}
+
+.addr-modal-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 4px;
+    color: var(--gold, #D4AF37);
+    text-transform: uppercase;
+}
+
+.addr-modal-subtitle {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    margin-top: 0.4rem;
+    letter-spacing: 0.5px;
+}
+
+.addr-modal-close {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.4);
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: 0.25s;
+    flex-shrink: 0;
+}
+
+.addr-modal-close:hover {
+    border-color: rgba(212,175,55,0.3);
+    color: var(--gold, #D4AF37);
+    background: rgba(212,175,55,0.05);
+}
+
+/* ── GPS Button ──────────────────────────────────────────────────────── */
+.addr-gps-btn {
+    width: 100%;
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    color: var(--gold, #D4AF37);
+    padding: 0.85rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.addr-gps-btn:hover:not(:disabled) {
+    background: rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 0 0 20px rgba(212,175,55,0.1);
+}
+
+.addr-gps-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── GPS Status ──────────────────────────────────────────────────────── */
+.addr-gps-status {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    min-height: 1rem;
+    transition: all 0.3s;
+}
+
+.addr-gps-status--loading { color: rgba(212,175,55,0.7); }
+.addr-gps-status--success { color: #57c77a; }
+.addr-gps-status--error   { color: #e05555; }
+
+/* ── Form Divider ────────────────────────────────────────────────────── */
+.addr-form-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0 1.8rem;
+    color: rgba(255,255,255,0.15);
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.addr-form-divider::before,
+.addr-form-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+}
+
+/* ── Form Fields ─────────────────────────────────────────────────────── */
+.addr-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+.addr-form-row--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.addr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.4rem;
+}
+
+.addr-field--full {
+    grid-column: 1 / -1;
+}
+
+.addr-label {
+    font-size: 0.55rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.65);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.addr-input,
+.addr-select,
+.addr-textarea {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.addr-input:focus,
+.addr-select:focus,
+.addr-textarea:focus {
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.07);
+}
+
+.addr-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.addr-select option {
+    background: #0c0a08;
+    color: rgba(255,255,255,0.85);
+}
+
+.addr-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.addr-input::placeholder,
+.addr-textarea::placeholder { color: rgba(255,255,255,0.18); }
+
+.addr-field-error {
+    font-size: 0.58rem;
+    color: #e05555;
+    letter-spacing: 0.5px;
+    min-height: 1rem;
+}
+
+/* ── Default Checkbox ────────────────────────────────────────────────── */
+.addr-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+}
+
+.addr-checkbox-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--gold, #D4AF37);
+    cursor: pointer;
+}
+
+.addr-checkbox-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.5px;
+}
+
+/* ── Modal Actions ───────────────────────────────────────────────────── */
+.addr-modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.addr-btn-save {
+    flex: 1;
+    background: linear-gradient(135deg, #8B6914, #D4AF37 50%, #F0D060);
+    border: none;
+    color: #0c0a08;
+    padding: 1rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.addr-btn-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212,175,55,0.35);
+}
+
+.addr-btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.addr-btn-cancel {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    padding: 1rem 1.8rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: all 0.25s;
+}
+
+.addr-btn-cancel:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+}
+
+/* ── Confirm Delete Modal ────────────────────────────────────────────── */
+.addr-confirm-panel {
+    max-width: 420px;
+    text-align: center;
+    padding: 3rem 2.5rem;
+}
+
+.addr-confirm-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    display: block;
+}
+
+.addr-confirm-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--gold, #D4AF37);
+    margin-bottom: 0.7rem;
+}
+
+.addr-confirm-body {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.addr-confirm-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.addr-btn-confirm-delete {
+    background: rgba(224,85,85,0.12);
+    border: 1px solid rgba(224,85,85,0.35);
+    color: #e05555;
+    padding: 0.8rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.25s;
+}
+
+.addr-btn-confirm-delete:hover {
+    background: rgba(224,85,85,0.2);
+    box-shadow: 0 0 20px rgba(224,85,85,0.15);
+}
+
+.addr-btn-confirm-cancel {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    padding: 0.8rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.25s;
+}
+
+.addr-btn-confirm-cancel:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+}
+
+/* ── Toast Notification ──────────────────────────────────────────────── */
+.addr-toast {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 8, 5, 0.95);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--gold, #D4AF37);
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    z-index: 99999;
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.35s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.addr-toast--error {
+    border-color: rgba(224,85,85,0.35);
+    color: #e05555;
+}
+
+.addr-toast--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ── Section Gold Line ───────────────────────────────────────────────── */
+.addr-gold-line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(212,175,55,0.18), transparent);
+    margin: 3rem 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .addr-grid { grid-template-columns: 1fr; }
+    .addr-form-row { grid-template-columns: 1fr; }
+    .addr-form-row--3 { grid-template-columns: 1fr; }
+    .addr-modal-panel { padding: 2rem 1.5rem; }
+}

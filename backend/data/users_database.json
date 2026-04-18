@@ -1,0 +1,12 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "name": "Demo Member",
+            "email": "demo@cibelle.com",
+            "password": "$2a$10$X8a0uWe.JvW2Tj53RQK6G.R.N1q2sU94B6G/Q7t4iN/bVdK2i5fEa",
+            "role": "USER",
+            "created_at": "2026-04-16T12:00:00.000Z"
+        }
+    ]
+}

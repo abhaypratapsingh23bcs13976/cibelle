@@ -1,0 +1,30 @@
+{
+  "reservations": [
+    {
+      "id": "RES-1776494835670",
+      "restaurantId": "9",
+      "restaurantName": "The Table",
+      "date": "2026-04-22",
+      "timeSlot": "early",
+      "guests": 2,
+      "occasion": "romantic",
+      "menuType": "custom",
+      "specialRequests": "",
+      "status": "confirmed",
+      "createdAt": "2026-04-18T06:47:15.670Z"
+    },
+    {
+      "id": "RES-1776529392354",
+      "restaurantId": "5",
+      "restaurantName": "Masque",
+      "date": "2026-04-24",
+      "timeSlot": "midnight",
+      "guests": 2,
+      "occasion": "business",
+      "menuType": "custom",
+      "specialRequests": "",
+      "status": "confirmed",
+      "createdAt": "2026-04-18T16:23:12.354Z"
+    }
+  ]
+}

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://www.transparenttextures.com https://grainy-gradients.vercel.app blob:; connect-src 'self' ws: wss: http://localhost:* https://nominatim.openstreetmap.org https://cdn.socket.io;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Identity | Cibelle Private Club</title>
+    <meta name="description" content="Your exclusive Cibelle member identity — personal details, dining history, and curated address portfolio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/address_onboarding.css">
+    <link rel="stylesheet" href="css/addresses.css">
+    <script src="js/navbar_loader.js"></script>
+    <style>
+        /* ── Profile Page Exclusive Styles ───────────────────────────────── */
+
+        /* Page fade-in */
+        body { animation: profileFadeIn 0.7s ease-out both; }
+        @keyframes profileFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ── Identity Hero Card ──────────────────────────────────────────── */
+        .profile-identity-hero {
+            position: relative;
+            padding: 4rem 3rem 3.5rem;
+            margin-bottom: 2.5rem;
+            background: rgba(255,255,255,0.018);
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        /* Gold gradient sweep background */
+        .profile-identity-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.04), transparent);
+            animation: heroSweep 6s ease-in-out infinite;
+        }
+
+        @keyframes heroSweep {
+            0%   { left: -100%; }
+            50%  { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        /* Top border glow */
+        .profile-identity-hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            opacity: 0.5;
+        }
+
+        /* ── Avatar with ring ─── */
+        .profile-avatar-ring {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-ring-outer {
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,0.3);
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        .avatar-ring-mid {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,0.12);
+            animation: ringPulse 3s ease-in-out 0.5s infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.4; transform: scale(1.04); }
+        }
+
+        .profile-avatar-xl {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B6914 0%, #D4AF37 40%, #F0D060 70%, #D4AF37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: black;
+            letter-spacing: -2px;
+            box-shadow: 0 0 30px rgba(212,175,55,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Hero Text ─── */
+        .profile-hero-text { flex: 1; }
+
+        .profile-member-since {
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(212,175,55,0.6);
+            margin-bottom: 0.6rem;
+        }
+
+        .profile-hero-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            color: var(--text);
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            line-height: 1.2;
+        }
+
+        .profile-hero-email {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-tier-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.4rem;
+            background: rgba(212,175,55,0.08);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 40px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            animation: tierGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes tierGlow {
+            0%, 100% { box-shadow: 0 0 8px rgba(212,175,55,0.15); }
+            50%       { box-shadow: 0 0 20px rgba(212,175,55,0.35); }
+        }
+
+        .tier-badge-icon { font-size: 0.9rem; }
+
+        /* ── Member Stats ─── */
+        .member-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-tile {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(212,175,55,0.08);
+            border-radius: 12px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+                        border-color 0.3s,
+                        box-shadow 0.3s;
+            cursor: default;
+        }
+
+        .stat-tile:hover {
+            transform: translateY(-4px);
+            border-color: rgba(212,175,55,0.25);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        .stat-tile-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .stat-tile-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .personal-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .detail-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ── Section Gold Separator ─── */
+        .section-gold-line {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212,175,55,0.2), transparent);
+            margin: 2.5rem 0;
+        }
+
+        /* ── Personal Details Card ─── */
+        .details-card {
+            background: rgba(255,255,255,0.018);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .details-card:hover { border-color: rgba(212,175,55,0.12); }
+
+        .card-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .btn-edit-toggle {
+            background: transparent;
+            border: 1px solid rgba(212,175,55,0.2);
+            color: var(--text-muted);
+            padding: 0.4rem 1rem;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: 0.3s;
+        }
+
+        .btn-edit-toggle:hover,
+        .btn-edit-toggle.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212,175,55,0.05);
+        }
+
+        /* Detail field — display vs edit mode */
+        .detail-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .details-card.editing .detail-field:not(.disabled-field) {
+            transform: scale(1.02);
+        }
+
+        .detail-label {
+            font-size: 0.58rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .details-card.editing .detail-label { opacity: 1; }
+
+        .inline-edit-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            padding: 0.6rem 0;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+            cursor: default;
+        }
+
+        .details-card.editing .inline-edit-input:not(:read-only) {
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            cursor: text;
+        }
+
+        .inline-edit-input:focus {
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 4px 12px rgba(212,175,55,0.15);
+        }
+
+        .inline-edit-input:read-only {
+            pointer-events: none;
+        }
+
+        /* Disabled/Read-only special style (Email) */
+        .disabled-field {
+            opacity: 0.5;
+        }
+        
+        .field-lock-icon {
+            position: absolute;
+            right: 0;
+            bottom: 1rem;
+            font-size: 0.7rem;
+            color: var(--gold);
+            opacity: 0.6;
+        }
+
+        /* Inline Validation */
+        .field-error-msg {
+            font-size: 0.55rem;
+            color: #ff4d4d;
+            margin-top: 0.3rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            height: 0;
+            transition: 0.3s;
+        }
+        .field-error-msg.visible {
+            opacity: 1;
+            height: auto;
+        }
+
+        .save-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .details-card.editing .save-btn-row {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .btn-save-profile {
+            background: var(--gold-gradient);
+            border: none;
+            color: black;
+            padding: 0.8rem 2.5rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .btn-save-profile::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -100%;
+            width: 50%; height: 200%;
+            background: rgba(255,255,255,0.25);
+            transform: rotate(30deg);
+            transition: 0.5s;
+        }
+
+        .btn-save-profile:hover::after { left: 150%; }
+        .btn-save-profile:hover { box-shadow: 0 0 20px rgba(212,175,55,0.4); transform: translateY(-1px); }
+
+        /* ── Dining Addresses ─── */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .address-tile {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+                        border-color 0.3s,
+                        box-shadow 0.3s;
+        }
+
+        .address-tile:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212,175,55,0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3),
+                        0 0 20px rgba(212,175,55,0.07);
+        }
+
+        .address-tile-type {
+            font-size: 0.58rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(212,175,55,0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .address-tile-icon {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .address-tile-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .address-default-badge {
+            display: inline-block;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            color: var(--gold);
+            padding: 3px 10px;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Add address tile */
+        .address-tile-add {
+            border: 1px dashed rgba(212,175,55,0.15);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            gap: 0.8rem;
+            transition: all 0.35s;
+        }
+
+        .address-tile-add:hover {
+            border-color: rgba(212,175,55,0.4);
+            background: rgba(212,175,55,0.03);
+            transform: translateY(-3px);
+        }
+
+        .address-tile-add .plus-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
+
+        .address-tile-add:hover .plus-icon {
+            background: rgba(212,175,55,0.1);
+            box-shadow: 0 0 15px rgba(212,175,55,0.2);
+        }
+
+        .address-tile-add span {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .address-tile-add:hover span { color: var(--gold); }
+
+        /* Add Address Expand Panel */
+        .add-address-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .add-address-panel.open { max-height: 400px; }
+
+        .add-address-inner {
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(212,175,55,0.08);
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .add-address-inner .luxury-input-group {
+            display: block;
+            margin-bottom: 1.2rem;
+        }
+
+        /* ── Sidebar upgrade ─── */
+        .dash-nav-link {
+            position: relative;
+        }
+
+        .dash-nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 70%;
+            background: var(--gold-gradient);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .dash-nav-link:not(.active) { opacity: 0.55; }
+        .dash-nav-link:not(.active):hover { opacity: 1; }
+
+        @media (max-width: 768px) {
+            .profile-identity-hero { flex-direction: column; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+            .member-stats-row { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+            .stat-tile { padding: 1.2rem 0.8rem; }
+            .stat-tile-value { font-size: 1.2rem; }
+            .details-card { padding: 1.5rem; }
+            .addresses-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+
+    <div id="navbar-placeholder"></div>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar">
+            <div class="user-info-side">
+                <p class="dash-subtitle" style="font-size:0.55rem;letter-spacing:3px;opacity:0.5;">PRIVATE CLUB</p>
+                <h3 id="dash-user-name" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;color:var(--gold);">Elite Member</h3>
+            </div>
+            <ul class="dash-nav">
+                <li><a href="profile.html" class="dash-nav-link active">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    My Identity
+                </a></li>
+                <li><a href="orders.html" class="dash-nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+                    My Experiences
+                </a></li>
+                <li><a href="saved.html" class="dash-nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    Curated Places
+                </a></li>
+                <li><a href="membership.html" class="dash-nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Membership
+                </a></li>
+                <li><a href="settings.html" class="dash-nav-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Security
+                </a></li>
+                <li><a href="#" class="dash-nav-link logout-nav" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sign Out
+                </a></li>
+            </ul>
+        </aside>
+
+        <div class="dash-divider"></div>
+
+        <!-- Main Content -->
+        <main class="dash-main" style="padding: 3rem 3.5rem; max-width: 900px;">
+
+            <!-- ══ 1. IDENTITY HERO ══ -->
+            <div class="profile-identity-hero reveal visible">
+                <div class="profile-avatar-ring">
+                    <div class="avatar-ring-outer"></div>
+                    <div class="avatar-ring-mid"></div>
+                    <div class="profile-avatar-xl" id="hero-avatar">C</div>
+                </div>
+                <div class="profile-hero-text">
+                    <p class="profile-member-since" id="member-since-label">Cibelle Member Since 2026</p>
+                    <h1 class="profile-hero-name" id="hero-name">Elite Member</h1>
+                    <p class="profile-hero-email" id="hero-email">concierge@cibelle.com</p>
+                    <div class="profile-tier-badge" id="hero-tier-badge">
+                        <span class="tier-badge-icon" id="hero-tier-icon">♛</span>
+                        <span id="hero-tier-label">Cibelle Elite</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 2. MEMBER STATS ══ -->
+            <div class="member-stats-row reveal visible">
+                <div class="stat-tile">
+                    <span class="stat-tile-icon">🍽️</span>
+                    <span class="stat-tile-value" id="stat-orders">—</span>
+                    <span class="stat-tile-label">Experiences</span>
+                </div>
+                <div class="stat-tile">
+                    <span class="stat-tile-icon">🏆</span>
+                    <span class="stat-tile-value" id="stat-cuisine">—</span>
+                    <span class="stat-tile-label">Favourites</span>
+                </div>
+                <div class="stat-tile">
+                    <span class="stat-tile-icon">✦</span>
+                    <span class="stat-tile-value" id="stat-spent">—</span>
+                    <span class="stat-tile-label">Curated Total</span>
+                </div>
+            </div>
+
+            <div class="section-gold-line"></div>
+
+            <!-- ══ 3. PERSONAL DETAILS ══ -->
+            <div class="details-card reveal visible" id="personal-card">
+                <div class="card-section-header">
+                    <span class="card-section-title">Personal Details</span>
+                    <button class="btn-edit-toggle" id="edit-toggle-btn" onclick="ProfilePage.toggleEdit()">Edit</button>
+                </div>
+
+                <div class="personal-details-grid">
+                    <div class="detail-field">
+                        <span class="detail-label">First Name</span>
+                        <input type="text" class="inline-edit-input" id="inp-first-name" value="—" readonly>
+                        <span class="field-error-msg" id="err-first-name">This field is mandatory</span>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-label">Middle Name</span>
+                        <input type="text" class="inline-edit-input" id="inp-middle-name" value="—" readonly placeholder="Optional">
+                        <span class="field-error-msg" id="err-middle-name"></span>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-label">Last Name</span>
+                        <input type="text" class="inline-edit-input" id="inp-last-name" value="—" readonly>
+                        <span class="field-error-msg" id="err-last-name">This field is mandatory</span>
+                    </div>
+                </div>
+
+                <div class="personal-details-grid" style="grid-template-columns: 1fr 1fr; margin-top: 1.5rem;">
+                    <div class="detail-field disabled-field">
+                        <span class="detail-label">Email Address</span>
+                        <input type="email" class="inline-edit-input" id="inp-email" value="—" readonly>
+                        <span class="field-lock-icon">🔒</span>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-label">Phone Number</span>
+                        <input type="tel" class="inline-edit-input" id="inp-phone" value="—" readonly>
+                        <span class="field-error-msg" id="err-phone"></span>
+                    </div>
+                </div>
+
+            <div class="save-btn-row">
+                <button class="btn-save-profile" onclick="ProfilePage.saveProfile()" id="save-profile-btn">Save Changes</button>
+            </div>
+        </div>
+
+        <!-- ══ 4. DINING SANCTUARIES ══ -->
+        <div class="addr-gold-line"></div>
+
+        <div class="addr-section reveal visible">
+            <div class="addr-section-header">
+                <div>
+                    <div class="addr-section-title">Your Dining Sanctuaries</div>
+                    <div class="addr-section-subtitle">Addresses where Cibelle will serve you.</div>
+                </div>
+            </div>
+
+            <div class="addr-grid" id="address-sanctuaries-grid">
+                <!-- Loaded dynamically by addresses.js -->
+                <div class="addr-card addr-card-add" onclick="AddressManager.openModal()">
+                    <div class="addr-add-plus">+</div>
+                    <span>Loading your sanctuaries...</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<footer><p>&copy; 2026 Cibelle. Indulge in Excellence.</p></footer>
+
+<!-- ══ ADD / EDIT ADDRESS MODAL ══ -->
+<div id="addr-modal" class="addr-modal" role="dialog" aria-modal="true" aria-labelledby="addr-modal-title">
+    <div class="addr-modal-panel">
+        <div class="addr-modal-header">
+            <div>
+                <div class="addr-modal-title" id="addr-modal-title">NEW DINING SANCTUARY</div>
+                <div class="addr-modal-subtitle">Define where excellence will meet you.</div>
+            </div>
+            <button class="addr-modal-close" onclick="AddressManager.closeModal()" aria-label="Close">✕</button>
+        </div>
+
+        <!-- GPS Detection -->
+        <button class="addr-gps-btn" id="addr-gps-btn" onclick="AddressManager.detectLocation()">
+            📍 Use Current Location
+        </button>
+        <div class="addr-gps-status" id="addr-gps-status"></div>
+
+        <!-- Form Divider -->
+        <div class="addr-form-divider">or enter manually</div>
+
+        <!-- Hidden lat/lng -->
+        <input type="hidden" id="addr-inp-lat">
+        <input type="hidden" id="addr-inp-lng">
+
+        <!-- Address Type + Label -->
+        <div class="addr-form-row">
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-type">Address Type</label>
+                <select class="addr-select" id="addr-inp-type">
+                    <option value="home">🏡 Home</option>
+                    <option value="villa">🏰 Villa</option>
+                    <option value="office">🏢 Office</option>
+                    <option value="event">✨ Event Venue</option>
+                </select>
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-label">Sanctuary Name</label>
+                <input type="text" class="addr-input" id="addr-inp-label" placeholder="e.g. My Penthouse">
+            </div>
+        </div>
+
+        <!-- Full Address -->
+        <div class="addr-field">
+            <label class="addr-label" for="addr-inp-address">Full Address *</label>
+            <textarea class="addr-textarea" id="addr-inp-address" placeholder="Street, Apartment, Floor..."></textarea>
+            <span class="addr-field-error" id="addr-err-address"></span>
+        </div>
+
+        <!-- City + State + Postal -->
+        <div class="addr-form-row addr-form-row--3">
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-city">City</label>
+                <input type="text" class="addr-input" id="addr-inp-city" placeholder="Mumbai">
+                <span class="addr-field-error" id="addr-err-city"></span>
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-state">State</label>
+                <input type="text" class="addr-input" id="addr-inp-state" placeholder="Maharashtra">
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-postal">Postal Code</label>
+                <input type="text" class="addr-input" id="addr-inp-postal" placeholder="400001">
+                <span class="addr-field-error" id="addr-err-postal"></span>
+            </div>
+        </div>
+
+        <!-- Landmark -->
+        <div class="addr-field">
+            <label class="addr-label" for="addr-inp-landmark">Landmark (Optional)</label>
+            <input type="text" class="addr-input" id="addr-inp-landmark" placeholder="Near Taj Hotel, Opposite HDFC...">
+        </div>
+
+        <!-- Set as Default -->
+        <label class="addr-checkbox-row">
+            <input type="checkbox" id="addr-inp-default">
+            <span class="addr-checkbox-label">Set as my primary delivery address</span>
+        </label>
+
+        <!-- Actions -->
+        <div class="addr-modal-actions">
+            <button class="addr-btn-save" id="addr-save-btn" onclick="AddressManager.submitForm()">Save Sanctuary</button>
+            <button class="addr-btn-cancel" onclick="AddressManager.closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ DELETE CONFIRMATION MODAL ══ -->
+<div id="addr-confirm-modal" class="addr-modal" role="alertdialog" aria-modal="true">
+    <div class="addr-modal-panel addr-confirm-panel">
+        <span class="addr-confirm-icon">🏚️</span>
+        <div class="addr-confirm-title">Remove This Sanctuary?</div>
+        <div class="addr-confirm-body">
+            This dining address will be permanently removed from your Cibelle profile.
+            This action cannot be undone.
+        </div>
+        <div class="addr-confirm-actions">
+            <button class="addr-btn-confirm-delete" onclick="AddressManager.confirmDelete()">Yes, Remove It</button>
+            <button class="addr-btn-confirm-cancel" onclick="AddressManager.cancelDelete()">Keep It</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/addresses.js"></script>
+<script>
+// Profile Page Controller
+const ProfilePage = (() => {
+    let isEditing = false;
+
+    function preloadFromCache() {
+        const user = JSON.parse(localStorage.getItem('cibelle_user') || '{}');
+        
+        const setSafeVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+
+        if (user.first_name) setSafeVal('inp-first-name', user.first_name);
+        if (user.middle_name) setSafeVal('inp-middle-name', user.middle_name);
+        else setSafeVal('inp-middle-name', ''); // Keep it empty/blank for luxury look
+        
+        if (user.last_name) setSafeVal('inp-last-name', user.last_name);
+        if (user.email) {
+            setSafeVal('inp-email', user.email);
+            const heroEmail = document.getElementById('hero-email');
+            if(heroEmail) heroEmail.textContent = user.email;
+        }
+        if (user.phone) setSafeVal('inp-phone', user.phone);
+
+        const name = user.first_name 
+            ? `${user.first_name}${user.middle_name ? ' ' + user.middle_name : ''} ${user.last_name || ''}`.trim() 
+            : user.name;
+        if (name) {
+            const heroName = document.getElementById('hero-name');
+            if(heroName) heroName.textContent = name;
+            
+            const heroAvatar = document.getElementById('hero-avatar');
+            if(heroAvatar) heroAvatar.textContent = name.charAt(0).toUpperCase();
+            
+            const dashName = document.getElementById('dash-user-name');
+            if(dashName) dashName.textContent = name;
+        }
+    }
+
+    function toggleEdit() {
+        isEditing = !isEditing;
+        const card = document.getElementById('personal-card');
+        const btn  = document.getElementById('edit-toggle-btn');
+        const inputs = card.querySelectorAll('.inline-edit-input:not(#inp-email)');
+        
+        card.classList.toggle('editing', isEditing);
+        btn.classList.toggle('active', isEditing);
+        btn.textContent = isEditing ? 'Cancel' : 'Edit Identity';
+
+        inputs.forEach(inp => {
+            inp.readOnly = !isEditing;
+            if (!isEditing) {
+                // Reset to original values on cancel
+                preloadFromCache();
+                // Hide errors
+                document.querySelectorAll('.field-error-msg').forEach(e => e.classList.remove('visible'));
+            }
+        });
+
+        if (isEditing) {
+            setTimeout(() => document.getElementById('inp-first-name').focus(), 300);
+        }
+    }
+    
+    async function saveProfile() {
+        const btn = document.getElementById('save-profile-btn');
+        btn.textContent = 'SECURELY SAVING…';
+        btn.disabled = true;
+
+        // Reset errors
+        document.querySelectorAll('.field-error-msg').forEach(e => e.classList.remove('visible'));
+
+        const firstName = document.getElementById('inp-first-name').value.trim();
+        const middleName = document.getElementById('inp-middle-name').value.trim();
+        const lastName = document.getElementById('inp-last-name').value.trim();
+        const phone = document.getElementById('inp-phone').value.trim();
+
+        let hasError = false;
+        if (!firstName) {
+            document.getElementById('err-first-name').classList.add('visible');
+            hasError = true;
+        }
+        if (!lastName) {
+            document.getElementById('err-last-name').classList.add('visible');
+            hasError = true;
+        }
+
+        if (hasError) {
+            btn.disabled = false;
+            btn.textContent = 'Save Changes';
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('cibelle_token');
+            const res = await fetch('/api/auth/profile', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ firstName, middleName, lastName, phone })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                const existing = JSON.parse(localStorage.getItem('cibelle_user') || '{}');
+                const merged = { ...existing, ...data.user };
+                localStorage.setItem('cibelle_user', JSON.stringify(merged));
+
+                // Refresh values from cache and exit edit mode
+                preloadFromCache();
+                toggleEdit();
+                showToast('Profile updated successfully');
+            } else {
+                showToast(data.message || 'The concierge encountered an error.');
+            }
+        } catch {
+            showToast('Connection error. Please try again.');
+        }
+
+        btn.textContent = 'Save Changes';
+        btn.disabled = false;
+    }
+
+    return { toggleEdit, saveProfile, preloadFromCache };
+})();
+
+// Run cache pre-load immediately so UI doesn't flash blank
+document.addEventListener('DOMContentLoaded', () => {
+    ProfilePage.preloadFromCache();
+    // Initialize Dining Sanctuaries once auth is ready
+    setTimeout(() => {
+        if (typeof AddressManager !== 'undefined' && CibelleAuth.isLoggedIn()) {
+            AddressManager.init();
+        }
+    }, 300);
+});
+
+function showToast(msg) {
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(10,8,4,0.95);border:1px solid rgba(212,175,55,0.3);color:var(--gold);padding:0.9rem 2rem;border-radius:8px;font-size:0.78rem;letter-spacing:1px;z-index:99999;backdrop-filter:blur(20px);opacity:0;transition:opacity 0.3s;';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.style.opacity = '1', 10);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3500);
+}
+</script>
+</body>
+</html>

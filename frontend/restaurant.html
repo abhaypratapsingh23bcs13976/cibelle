@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cibelle | Restaurant Menu</title>
+    <meta name="description" content="Explore the curated menu of an exclusive Cibelle establishment.">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@700&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/reservation.css">
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/addresses.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <script src="js/navbar_loader.js"></script>
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="ambience-overlay"></div>
+
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <!-- Restaurant Hero Banner -->
+        <section class="restaurant-hero" id="restaurant-hero">
+            <div class="hero-motion-bg"></div>
+            <div class="loader" style="align-self:center;margin:auto;">Preparing table...</div>
+        </section>
+
+        <!-- Menu Categories -->
+        <section class="menu-page" id="menu-container"></section>
+
+        <!-- Private Dining CTA -->
+        <section class="reservation-cta-section reveal">
+            <div class="cta-glass-card">
+                <div class="cta-content">
+                    <div class="cta-eyebrow">Exclusively for Members</div>
+                    <h2 class="cta-title">Private Dining</h2>
+                    <p class="cta-description">Experience culinary artistry in its most intimate form. From curated tasting menus to personalized service, every detail is crafted specifically for you.</p>
+                    <div class="cta-badges">
+                        <span class="cta-badge">✦ Personalized Menu</span>
+                        <span class="cta-badge">✦ Private Seating</span>
+                        <span class="cta-badge">✦ Dedicated Sommelier</span>
+                    </div>
+                </div>
+                <div class="cta-action">
+                    <button class="btn-primary-gold" onclick="redirectToPrivateDining()">
+                        Reserve Private Dining
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                    <p class="cta-note">A concierge will contact you within 15 minutes of reservation.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ══ PREMIUM CURATED SELECTION PANEL ══ -->
+    <div class="cart-drawer-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+
+        <!-- Mini Step Progress Bar -->
+        <div class="cart-progress-bar">
+            <div class="cart-progress-steps">
+                <div class="cart-progress-step active">
+                    <div class="cart-progress-step-dot">1</div>
+                    <div class="cart-progress-step-label">Cart</div>
+                </div>
+                <div class="cart-progress-connector"></div>
+                <div class="cart-progress-step">
+                    <div class="cart-progress-step-dot">2</div>
+                    <div class="cart-progress-step-label">Checkout</div>
+                </div>
+                <div class="cart-progress-connector"></div>
+                <div class="cart-progress-step">
+                    <div class="cart-progress-step-dot">3</div>
+                    <div class="cart-progress-step-label">Payment</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="cart-header">
+            <div class="cart-header-left">
+                <div class="cart-eyebrow">Cibelle Selection</div>
+                <h2>Your Curated Selection</h2>
+                <div class="cart-header-divider"></div>
+            </div>
+            <button class="cart-close" id="cart-close-btn" aria-label="Close selection panel">&times;</button>
+        </div>
+
+        <!-- Estimated Delivery Banner -->
+        <div class="cart-delivery-banner">
+            <span class="cart-delivery-icon">🕐</span>
+            <span class="cart-delivery-text">Delivered in <strong>~35 mins</strong> · White-glove concierge service</span>
+        </div>
+
+        <!-- Scrollable Body -->
+        <div class="cart-body" id="cart-items-container">
+            <div class="cart-empty-state">
+                <div class="cart-empty-icon">🍽️</div>
+                <div class="cart-empty-title">Your Gallery Awaits</div>
+                <div class="cart-empty-sub">Begin curating your exclusive selection from our chef's offerings</div>
+            </div>
+        </div>
+
+        <!-- Experience Preview -->
+        <div class="cart-experience-preview">
+            <span class="cart-exp-label">Ordering for</span>
+            <span class="cart-exp-value" id="cart-exp-value">Not yet selected</span>
+            <span class="cart-exp-hint" onclick="CibelleCheckout.open()">Choose →</span>
+        </div>
+
+        <!-- Footer: Totals + CTA -->
+        <div class="cart-footer">
+            <!-- Subtotal group (small, muted) -->
+            <div class="cart-receipt-subtotal-group">
+                <div class="cart-receipt-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">₹0</span>
+                </div>
+                <div class="cart-receipt-row">
+                    <span>Concierge Fee</span>
+                    <span id="cart-delivery">₹0</span>
+                </div>
+            </div>
+
+            <!-- Grand Total (prominent) -->
+            <div class="cart-receipt-row total">
+                <span>Total Amount</span>
+                <div class="cart-total-amount-block">
+                    <span class="total-val" id="cart-total">₹0</span>
+                    <span class="taxes-label">Taxes &amp; curated service included</span>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <button class="btn-checkout-premium" id="btn-proceed-checkout" onclick="CibelleCheckout.open()">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- ══ FULLSCREEN CHECKOUT OVERLAY ══ -->
+    <div id="cibelle-checkout" class="co-overlay" role="dialog" aria-modal="true" aria-label="Cibelle Checkout">
+        <div class="co-panel">
+
+            <!-- ── Progress Bar ── -->
+            <div class="co-progress">
+                <div class="co-progress-fill" id="co-progress-fill"></div>
+            </div>
+
+            <!-- ── Step Crumbs ── -->
+            <div class="co-steps" id="co-steps">
+                <div class="co-step active" data-step="1">
+                    <div class="co-step-dot">1</div>
+                    <span>Experience</span>
+                </div>
+                <div class="co-step-line"></div>
+                <div class="co-step" data-step="2">
+                    <div class="co-step-dot">2</div>
+                    <span>Details</span>
+                </div>
+                <div class="co-step-line"></div>
+                <div class="co-step" data-step="3">
+                    <div class="co-step-dot">3</div>
+                    <span>Review</span>
+                </div>
+                <div class="co-step-line"></div>
+                <div class="co-step" data-step="4">
+                    <div class="co-step-dot">4</div>
+                    <span>Payment</span>
+                </div>
+            </div>
+
+            <!-- ── Close ── -->
+            <button class="co-close" id="co-close-btn" onclick="CibelleCheckout.close()" aria-label="Close checkout">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <!-- ── Main Content Area ── -->
+            <div class="co-body">
+
+                <!-- LEFT: Step Content -->
+                <div class="co-main" id="co-main">
+
+                    <!-- STEP 1: Experience -->
+                    <div class="co-screen" id="co-screen-1">
+                        <div class="co-screen-eyebrow">Step 1 of 4</div>
+                        <h2 class="co-screen-title">How shall we serve you?</h2>
+                        <p class="co-screen-sub">Choose your preferred culinary experience</p>
+
+                        <div class="co-exp-grid">
+                            <button class="co-exp-card" id="co-exp-delivery" onclick="CibelleCheckout.selectExperience('delivery')" aria-pressed="false">
+                                <div class="co-exp-top">
+                                    <span class="co-exp-icon">🏡</span>
+                                    <div class="co-exp-check">✓</div>
+                                </div>
+                                <div class="co-exp-name">Home Delivery</div>
+                                <div class="co-exp-desc">Delivered by our concierge ambassador to your sanctuary of choice. White-glove doorstep service.</div>
+                                <div class="co-exp-meta">~45–60 min</div>
+                            </button>
+
+                            <button class="co-exp-card" id="co-exp-dining" onclick="CibelleCheckout.selectExperience('dining')" aria-pressed="false">
+                                <div class="co-exp-top">
+                                    <span class="co-exp-icon">🕯️</span>
+                                    <div class="co-exp-check">✓</div>
+                                </div>
+                                <div class="co-exp-name">Private Dining</div>
+                                <div class="co-exp-desc">Reserve a curated table at the establishment. A dedicated concierge will prepare the evening.</div>
+                                <div class="co-exp-meta">Table reserved for you</div>
+                            </button>
+                        </div>
+
+                        <div class="co-nav co-nav--right">
+                            <button class="co-btn-next" id="co-btn-exp-next" onclick="CibelleCheckout.goToStep(2)" disabled>
+                                Continue
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2a: Home Delivery — Address -->
+                    <div class="co-screen" id="co-screen-2-delivery" style="display:none;">
+                        <div class="co-screen-eyebrow">Step 2 of 4</div>
+                        <h2 class="co-screen-title">Your Delivery Sanctuary</h2>
+                        <p class="co-screen-sub">Where shall our ambassador bring your order?</p>
+
+                        <div class="co-addr-list" id="co-addr-list">
+                            <div class="co-addr-loading">Loading your sanctuaries...</div>
+                        </div>
+
+                        <button class="co-add-addr-btn" onclick="CibelleCheckout.openAddAddressModal()">
+                            <span class="co-add-addr-plus">+</span>
+                            Add New Address
+                        </button>
+
+                        <div class="co-nav">
+                            <button class="co-btn-back" onclick="CibelleCheckout.goToStep(1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                                Back
+                            </button>
+                            <button class="co-btn-next" id="co-btn-addr-next" onclick="CibelleCheckout.goToStep(3)" disabled>
+                                Review Order
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2b: Private Dining — Redirect -->
+                    <div class="co-screen" id="co-screen-2-dining" style="display:none;">
+                        <div class="co-screen-eyebrow">Step 2 of 4</div>
+                        <h2 class="co-screen-title">Private Dining Experience</h2>
+                        <p class="co-screen-sub">Our concierge will personally curate your exclusive experience</p>
+
+                        <div class="co-dining-info">
+                            <div class="co-dining-icon">🕯️</div>
+                            <p class="co-dining-text">You'll be redirected to our exclusive <strong>Private Dining</strong> reservation portal where our concierge team will craft your perfect evening — table, menu, sommelier, and all.</p>
+                            <div class="co-dining-features">
+                                <div class="co-dining-feat"><span>✦</span> Personalized curated menu</div>
+                                <div class="co-dining-feat"><span>✦</span> Private table reservation</div>
+                                <div class="co-dining-feat"><span>✦</span> Dedicated white-glove service</div>
+                                <div class="co-dining-feat"><span>✦</span> Complimentary welcome experience</div>
+                            </div>
+                        </div>
+
+                        <div class="co-nav">
+                            <button class="co-btn-back" onclick="CibelleCheckout.goToStep(1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                                Back
+                            </button>
+                            <button class="co-btn-next" onclick="CibelleCheckout.proceedToDining()">
+                                Reserve Private Dining
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Review Order -->
+                    <div class="co-screen" id="co-screen-3" style="display:none;">
+                        <div class="co-screen-eyebrow">Step 3 of 4</div>
+                        <h2 class="co-screen-title">Review Your Order</h2>
+                        <p class="co-screen-sub">Confirm every detail before we proceed</p>
+
+                        <div class="co-review-section">
+                            <div class="co-review-label">Experience</div>
+                            <div class="co-review-value" id="co-review-experience">—</div>
+                        </div>
+                        <div class="co-review-section" id="co-review-addr-section">
+                            <div class="co-review-label">Delivery To</div>
+                            <div class="co-review-value" id="co-review-address">—</div>
+                        </div>
+
+                        <div class="co-review-items" id="co-review-items">
+                            <!-- populated dynamically -->
+                        </div>
+
+                        <div class="co-review-total">
+                            <div class="co-review-total-row">
+                                <span>Subtotal</span>
+                                <span id="co-review-subtotal">₹0</span>
+                            </div>
+                            <div class="co-review-total-row">
+                                <span>Concierge &amp; Delivery</span>
+                                <span id="co-review-delivery">₹0</span>
+                            </div>
+                            <div class="co-review-total-row co-review-grand">
+                                <span>Total</span>
+                                <span id="co-review-total">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="co-nav">
+                            <button class="co-btn-back" onclick="CibelleCheckout.goToStep(2)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                                Back
+                            </button>
+                            <button class="co-btn-next" onclick="CibelleCheckout.goToStep(4)">
+                                Proceed to Payment
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Payment -->
+                    <div class="co-screen" id="co-screen-4" style="display:none;">
+                        <div class="co-screen-eyebrow">Step 4 of 4</div>
+                        <h2 class="co-screen-title">Secure Payment</h2>
+                        <p class="co-screen-sub">Encrypted & verified by Razorpay</p>
+
+                        <div class="co-payment-summary">
+                            <div class="co-payment-summary-row">
+                                <span>Order Total</span>
+                                <span class="co-payment-amount" id="co-pay-total">₹0</span>
+                            </div>
+                            <div class="co-payment-summary-row small">
+                                <span>Delivering to</span>
+                                <span id="co-pay-addr">—</span>
+                            </div>
+                        </div>
+
+                        <div class="co-payment-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            256-bit SSL Encrypted · Powered by Razorpay
+                        </div>
+
+                        <div class="co-nav">
+                            <button class="co-btn-back" onclick="CibelleCheckout.goToStep(3)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                                Back
+                            </button>
+                            <button class="co-btn-pay" id="co-btn-pay" onclick="CibelleCheckout.executePayment()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                                Pay Now
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Order Summary Panel -->
+                <aside class="co-summary" id="co-summary">
+                    <div class="co-summary-title">Order Summary</div>
+                    <div class="co-summary-restaurant" id="co-summary-restaurant">—</div>
+                    <div class="co-summary-divider"></div>
+                    <div class="co-summary-items" id="co-summary-items">
+                        <!-- populated dynamically -->
+                    </div>
+                    <div class="co-summary-divider"></div>
+                    <div class="co-summary-row">
+                        <span>Subtotal</span>
+                        <span id="co-sum-subtotal">₹0</span>
+                    </div>
+                    <div class="co-summary-row">
+                        <span>Delivery & Concierge</span>
+                        <span id="co-sum-delivery">₹0</span>
+                    </div>
+                    <div class="co-summary-row co-summary-total">
+                        <span>Total</span>
+                        <span id="co-sum-total">₹0</span>
+                    </div>
+                    <div class="co-summary-secure">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Secured by Cibelle Concierge
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+
+
+<!-- ══ ADDRESS MODAL (shared with checkout flow) ══ -->
+<div id="addr-modal" class="addr-modal" role="dialog" aria-modal="true" aria-labelledby="addr-modal-title">
+    <div class="addr-modal-panel">
+        <div class="addr-modal-header">
+            <div>
+                <div class="addr-modal-title" id="addr-modal-title">NEW DINING SANCTUARY</div>
+                <div class="addr-modal-subtitle">Define where excellence will meet you.</div>
+            </div>
+            <button class="addr-modal-close" onclick="AddressManager.closeModal()" aria-label="Close">✕</button>
+        </div>
+
+        <!-- GPS Detection -->
+        <button class="addr-gps-btn" id="addr-gps-btn" onclick="AddressManager.detectLocation()">
+            📍 Use Current Location
+        </button>
+        <div class="addr-gps-status" id="addr-gps-status"></div>
+
+        <div class="addr-form-divider">or enter manually</div>
+
+        <input type="hidden" id="addr-inp-lat">
+        <input type="hidden" id="addr-inp-lng">
+
+        <div class="addr-form-row">
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-type">Address Type</label>
+                <select class="addr-select" id="addr-inp-type">
+                    <option value="home">🏡 Home</option>
+                    <option value="villa">🏰 Villa</option>
+                    <option value="office">🏢 Office</option>
+                    <option value="event">✨ Event Venue</option>
+                </select>
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-label">Sanctuary Name</label>
+                <input type="text" class="addr-input" id="addr-inp-label" placeholder="e.g. My Penthouse">
+            </div>
+        </div>
+
+        <div class="addr-field">
+            <label class="addr-label" for="addr-inp-address">Full Address *</label>
+            <textarea class="addr-textarea" id="addr-inp-address" placeholder="Street, Apartment, Floor..."></textarea>
+            <span class="addr-field-error" id="addr-err-address"></span>
+        </div>
+
+        <div class="addr-form-row addr-form-row--3">
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-city">City</label>
+                <input type="text" class="addr-input" id="addr-inp-city" placeholder="Mumbai">
+                <span class="addr-field-error" id="addr-err-city"></span>
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-state">State</label>
+                <input type="text" class="addr-input" id="addr-inp-state" placeholder="Maharashtra">
+            </div>
+            <div class="addr-field">
+                <label class="addr-label" for="addr-inp-postal">Postal Code</label>
+                <input type="text" class="addr-input" id="addr-inp-postal" placeholder="400001">
+                <span class="addr-field-error" id="addr-err-postal"></span>
+            </div>
+        </div>
+
+        <div class="addr-field">
+            <label class="addr-label" for="addr-inp-landmark">Landmark (Optional)</label>
+            <input type="text" class="addr-input" id="addr-inp-landmark" placeholder="Near Taj Hotel, Opposite HDFC...">
+        </div>
+
+        <label class="addr-checkbox-row">
+            <input type="checkbox" id="addr-inp-default">
+            <span class="addr-checkbox-label">Set as my primary delivery address</span>
+        </label>
+
+        <div class="addr-modal-actions">
+            <button class="addr-btn-save" id="addr-save-btn" onclick="AddressManager.submitForm()">Save Sanctuary</button>
+            <button class="addr-btn-cancel" onclick="AddressManager.closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ DELETE CONFIRM MODAL (needed by AddressManager) ══ -->
+<div id="addr-confirm-modal" class="addr-modal" role="alertdialog" aria-modal="true">
+    <div class="addr-modal-panel addr-confirm-panel">
+        <span class="addr-confirm-icon">🏖️</span>
+        <div class="addr-confirm-title">Remove This Sanctuary?</div>
+        <div class="addr-confirm-body">This dining address will be permanently removed from your Cibelle profile.</div>
+        <div class="addr-confirm-actions">
+            <button class="addr-btn-confirm-delete" onclick="AddressManager.confirmDelete()">Yes, Remove It</button>
+            <button class="addr-btn-confirm-cancel" onclick="AddressManager.cancelDelete()">Keep It</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialise AddressManager modal events on restaurant page
+// (no grid rendering needed — just the modal open/close + submit)
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof AddressManager !== 'undefined') {
+        // Only bind modal backdrop events; do NOT call init() which tries to render the profile grid
+        const modal = document.getElementById('addr-modal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) AddressManager.closeModal();
+            });
+        }
+        // After saving an address from checkout, reload the checkout address list
+        const origSubmit = AddressManager.submitForm.bind(AddressManager);
+        AddressManager.submitForm = async function() {
+            await origSubmit();
+            if (typeof CibelleCheckout !== 'undefined' && typeof CibelleCheckout._reloadAddresses === 'function') {
+                CibelleCheckout._reloadAddresses();
+            }
+        };
+    }
+});
+</script>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="js/addresses.js"></script>
+    <script src="js/restaurant.js"></script>
+    <script src="js/reservation.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

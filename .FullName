@@ -1,0 +1,62 @@
+# ============================================
+# Cibelle - Environment Variables
+# Copy to .env and fill in your values
+# ============================================
+
+# ---- General ----
+NODE_ENV=development
+PORT_GATEWAY=4000
+PORT_USER_SERVICE=4001
+PORT_RESTAURANT_SERVICE=4002
+PORT_ORDER_SERVICE=4003
+PORT_PAYMENT_SERVICE=4004
+PORT_NOTIFICATION_SERVICE=4005
+
+# ---- PostgreSQL (User Service) ----
+USER_DB_URL=postgresql://cibelle:cibelle_secret_2024@localhost:5432/cibelle_user_db
+
+# ---- PostgreSQL (Restaurant Service) ----
+RESTAURANT_DB_URL=postgresql://cibelle:cibelle_secret_2024@localhost:5433/cibelle_restaurant_db
+
+# ---- PostgreSQL (Order Service) ----
+ORDER_DB_URL=postgresql://cibelle:cibelle_secret_2024@localhost:5434/cibelle_order_db
+
+# ---- Redis ----
+REDIS_URL=redis://:cibelle_redis_2024@localhost:6379
+
+# ---- RabbitMQ ----
+RABBITMQ_URL=amqp://cibelle:cibelle_rabbit_2024@localhost:5672
+
+# ---- JWT ----
+JWT_SECRET=cibelle-jwt-secret-change-me-in-production-2024
+JWT_REFRESH_SECRET=cibelle-refresh-secret-change-me-in-production-2024
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+
+# ---- Google OAuth ----
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CALLBACK_URL=http://localhost:4000/api/auth/google/callback
+
+# ---- Stripe ----
+STRIPE_SECRET_KEY=sk_test_your-stripe-secret-key
+STRIPE_PUBLISHABLE_KEY=pk_test_your-stripe-publishable-key
+STRIPE_WEBHOOK_SECRET=whsec_your-webhook-secret
+
+# ---- Frontend ----
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+NEXT_PUBLIC_SOCKET_URL=http://localhost:4003
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your-stripe-publishable-key
+
+# ---- Email (Nodemailer) ----
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# ---- Google Maps (Optional) ----
+GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+
+# ---- Monitoring ----
+PROMETHEUS_PORT=9090
+GRAFANA_PORT=3001
