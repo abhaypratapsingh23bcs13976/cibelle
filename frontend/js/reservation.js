@@ -352,11 +352,22 @@ const Reservation = (() => {
         updateMenuUI();
     }
 
-    function updateMenuUI() {
-        if (state.menuType === 'custom') {
-            renderShowcase();
+    function updateMenuUI(partial = false) {
+        if (!partial) {
+            if (state.menuType === 'custom') {
+                renderShowcase();
+            } else {
+                renderTastingSequence();
+            }
         } else {
-            renderTastingSequence();
+            // If partial, we might just update the summary or specific cards.
+            // For now, let's at least keep scroll positions if re-rendering everything.
+            const scrollPositions = Array.from(document.querySelectorAll('.scroll-container')).map(el => el.scrollLeft);
+            renderShowcase();
+            const newContainers = document.querySelectorAll('.scroll-container');
+            scrollPositions.forEach((pos, i) => {
+                if (newContainers[i]) newContainers[i].scrollLeft = pos;
+            });
         }
         renderCurationSummary();
     }
@@ -425,6 +436,9 @@ const Reservation = (() => {
     function renderDishCards(dishes, category) {
         return dishes.map(dish => {
             const selected = state.selectedDishes.find(sd => sd.id === dish.id);
+            const escapedName = dish.name.replace(/'/g, "\\'");
+            const escapedCat = category.replace(/'/g, "\\'");
+            
             return `
                 <div class="dish-card-premium">
                     <div class="dish-img-wrapper">
@@ -438,13 +452,15 @@ const Reservation = (() => {
                         </div>
                         <p class="dish-desc">${dish.description || 'A masterpiece crafted with precision.'}</p>
                         ${selected ? `
-                            <div class="dish-qty-selector">
-                                <button class="dish-qty-btn" onclick="Reservation.updateDishQuantity('${dish.id}', -1)">−</button>
+                            <div class="dish-qty-selector" onmousedown="event.stopPropagation()">
+                                <button class="dish-qty-btn" onclick="Reservation.updateDishQuantity('${dish.id}', -1); event.stopPropagation();">−</button>
                                 <span>${selected.qty}</span>
-                                <button class="dish-qty-btn" onclick="Reservation.updateDishQuantity('${dish.id}', 1)">+</button>
+                                <button class="dish-qty-btn" onclick="Reservation.updateDishQuantity('${dish.id}', 1); event.stopPropagation();">+</button>
                             </div>
                         ` : `
-                            <button class="btn-curate" onclick="Reservation.curateDish('${dish.id}', '${dish.name.replace(/'/g, "\\'")}', ${dish.price}, '${category}')">
+                            <button class="btn-curate" 
+                                onmousedown="event.stopPropagation()"
+                                onclick="Reservation.curateDish('${dish.id}', '${escapedName}', ${dish.price}, '${escapedCat}'); event.stopPropagation();">
                                 Curate Dish
                             </button>
                         `}
@@ -517,7 +533,7 @@ const Reservation = (() => {
 
     function curateDish(id, name, price, category) {
         state.selectedDishes.push({ id, name, price, qty: 1, category });
-        updateMenuUI();
+        updateMenuUI(true); // partial update to preserve scroll
         playClickSound();
     }
 
@@ -530,7 +546,7 @@ const Reservation = (() => {
             state.selectedDishes = state.selectedDishes.filter(d => d.id !== id);
         }
         
-        updateMenuUI();
+        updateMenuUI(true); // partial update to preserve scroll
         playClickSound();
     }
 

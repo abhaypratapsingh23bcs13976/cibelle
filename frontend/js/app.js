@@ -47,6 +47,7 @@ let cart = [];
 let allRestaurants = [];
 let activeFilter = 'all';
 let displayLimit = 100; // Show all restaurants initially
+let globalRevealObserver = null;
 
 // Socket setup — only runs on pages that load the socket.io CDN
 if (typeof io !== 'undefined') {
@@ -80,6 +81,8 @@ function setupScrollAnimations() {
             }
         });
     }, observerOptions);
+
+    globalRevealObserver = observer;
 
     // Observe containers and individual items
     document.querySelectorAll('.reveal, .reveal-item').forEach(el => observer.observe(el));
@@ -277,15 +280,19 @@ function renderGrid(data, totalItems) {
         `;
         grid.appendChild(card);
         
-        // Re-observe for reveal
-        setTimeout(() => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            });
-            observer.observe(card);
-        }, 50);
+        // Register with global observer for reveal
+        if (globalRevealObserver) {
+            globalRevealObserver.observe(card);
+        } else {
+            // Fallback if observer not ready
+            setTimeout(() => card.classList.add('visible'), 100);
+        }
+
+        // Force reveal if parent section is already visible
+        const section = document.getElementById('restaurants');
+        if (section && section.classList.contains('visible')) {
+            setTimeout(() => card.classList.add('visible'), 100);
+        }
     });
 }
 
